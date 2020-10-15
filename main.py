@@ -223,12 +223,19 @@ def exportCSV():
                 #initialdir=app.default_path_to_pref,
                 title="Choose filename")   #askopenfilename(parent=app.window)
     with open(filename, mode='w') as operacoes:
-        operacoes_writer = csv.writer(operacoes, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        operacoes_writer.writerow(['Mercado', 'Papel', 'Status', 'Data', 'Valor',
-                                   'PM', 'Quantidade', 'Quantidade Consolidada', 'Custos'])
-        rows = app.listPapels.get(0, END)
+        operacoes_writer = csv.writer(operacoes, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        operacoes_writer.writerow(['Numero da Operação', 'Mercado', 'Papel', 'Status', 'Data', 'Mes', 'Ano', 'Valor',
+                                   'PM', 'Quantidade', 'Quantidade Consolidada', 'Custos', 'Consolidado',
+                                   'Valor Atual', 'Data de Fechamento', 'Day-Trade'])
+        # rows = app.listPapels.get(0, END)
+        # for row in rows:
+        #     operacoes_writer.writerow(row)
+        rows = core.viewAll()
         for row in rows:
-            operacoes_writer.writerow(row)
+            tupleAsList = list(row)
+            tupleAsList[4] = datetime.strptime(row[4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
+            rowNew = tuple(tupleAsList)
+            operacoes_writer.writerow(rowNew)
 
 
 ##########import CSV file into DB
@@ -255,7 +262,7 @@ def importCSV():
                     '',
                     int(operacao["Quantidade"]),
                     '',
-                    getdouble(operacao["Corretagem"].replace(',', '.')),
+                    getdouble(operacao["Custos"].replace(',', '.')),
                     '',
                     '',
                     '',
