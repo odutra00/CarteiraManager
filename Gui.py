@@ -21,7 +21,7 @@ class Gui:
     #Criando a janela...
     window          = Tk()
     window.wm_title("Cadastro de Ações")
-    window.geometry('1910x990')
+    window.geometry('1905x990')
     mono_font = tkfontchooser.Font(family="Helvetica", size=12)
 
     #Criando Menus
@@ -120,7 +120,7 @@ class Gui:
     framePie = LabelFrame(window, text='')#"Controles Posição Consolidada")
     labels = ['0']#, 'b', 'c', 'd']
     sizes = ['0']# 20, 30, 50]
-    fig = plt.figure(4, figsize=(6, 5))
+    fig = plt.figure(4, figsize=(6.7, 5))
     ax1 = fig.add_subplot(111)
     ax1.set_title("Posição Consolidada")
     ax1.axis("equal")
