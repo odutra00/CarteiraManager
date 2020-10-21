@@ -183,8 +183,27 @@ def updateAll():
 
 
 def del_command():#deleta uma entrada do db. atualiza o pm e os charts
-    id = selected[0]
-    core.delete(id)
+    entrada = selected
+    entradaLista = list(entrada)
+    i = 0
+    for row in entradaLista:
+        entradaLista[i] = row.replace("\t", "")
+        i = i + 1
+    i = 0
+    for row in entradaLista:
+        entradaLista[i] = row.replace("$", "")
+        i = i + 1
+
+    id = core.search2Delete(entradaLista[0],
+                            entradaLista[1],
+                            entradaLista[2],
+                            datetime.strptime(entradaLista[3], "%d/%m/%Y"),
+                            entradaLista[4],
+                            entradaLista[5],
+                            entradaLista[6],
+                            entradaLista[7],
+                            entradaLista[8])
+    core.delete(id[0])
     updateAll()
 
 
