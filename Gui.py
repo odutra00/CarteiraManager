@@ -106,6 +106,10 @@ class Gui:
     labelsColunas = Label(frameList,
                           text="   MKT\t Papel\t Status\t        Data         Preço        PM          N        NC     Custos",
                           font=mono_font)
+    #For windows
+    # labelsColunas = Label(frameList,
+    #                       text="   MKT   Papel    Status         Data         Preço      PM        N     NC    Custos",
+    #                       font=mono_font)
     listPapels   = Listbox(frameList, width=70, height=14, font=mono_font)
     scrollPapelsY = Scrollbar(frameList)
     #scrollPapelsX = Scrollbar(frameList)
