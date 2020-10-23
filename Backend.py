@@ -85,6 +85,14 @@ def search2Delete(mercado="", papel="", status="", data="", valor="", pm="", qua
     trans.disconnect()
     return rows
 
+def search2Edit(mercado="", papel="", status="", data="", valor="", quantidade="", custos=""):
+    trans = TransactionObject()
+    trans.connect()
+    trans.execute("SELECT id FROM STOCKS WHERE mercado=? and papel=? and status=? and data=? and valor=? and quantidade=? and custos=?", (mercado, papel, status, data, valor, quantidade, custos))
+    rows = trans.fetchall()
+    trans.disconnect()
+    return rows
+
 # def searchReturnAll(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", consolidado=""):
 #     trans = TransactionObject()
 #     trans.connect()

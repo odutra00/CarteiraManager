@@ -122,7 +122,7 @@ class Gui:
     btnViewAll     = Button(frameButoes, text="Ver todos", font=mono_font)
     btnBuscar      = Button(frameButoes, text="Buscar", font=mono_font)
     btnInserir     = Button(frameButoes, text="Inserir", font=mono_font)
-    btnUpdate      = Button(frameButoes, text="Atualizar Selecionado", font=mono_font)
+    #btnUpdate      = Button(frameButoes, text="Atualizar Selecionado", font=mono_font)
     btnDel         = Button(frameButoes, text="Deletar Selecionado", font=mono_font)
     btnClose       = Button(frameButoes, text="Fechar", font=mono_font)
 
@@ -377,7 +377,7 @@ class Gui:
     btnViewAll.grid(row=7, column=0, columnspan=2, sticky='nesw')  # 7
     btnBuscar.grid(row=8, column=0, columnspan=2, sticky='nesw')
     btnInserir.grid(row=9, column=0, columnspan=2, sticky='nesw')
-    btnUpdate.grid(row=10, column=0, columnspan=2, sticky='nesw')
+    #btnUpdate.grid(row=10, column=0, columnspan=2, sticky='nesw')
     btnDel.grid(row=11, column=0, columnspan=2, sticky='nesw')
 
 

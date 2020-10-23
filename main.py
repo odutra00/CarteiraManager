@@ -109,10 +109,23 @@ def insert_command():#insere o novo papel atualizando as informações no DB que
                     '')
     updateAll()
 
-
+#todo update needs to retreive the entry id
+#which is not being done in the list.
+#we cannot retrive the id through a search in the database
+#since the user, updating the entry, is going to change one of the
+#values. Therefore, the search will not find anithing.
 def update_command():#atualiza uma entrada do DB. Atualiza os charts
     dataCorreta, data, tipo = getDate()
     if tipo == 'DiaMesAno':
+        #search2Edit(mercado="", papel="", status="", data="", valor="", quantidade="", custos=""):
+        id = core.search2Edit(app.txtMercado.get(),
+                                app.txtPapel.get(),
+                                app.txtStatus.get(),
+                                data,
+                                getdouble(app.txtValorCompra.get().replace(',', '.')),
+                                int(app.txtQuantidade.get()),
+                                getdouble(app.txtCustos.get().replace(',', '.'))
+                                )
         core.update(app.txtMercado.get(),
                     app.txtPapel.get(),
                     app.txtStatus.get(),
@@ -124,6 +137,8 @@ def update_command():#atualiza uma entrada do DB. Atualiza os charts
                     int(app.txtQuantidade.get()),
                     '',
                     getdouble(app.txtCustos.get().replace(',', '.')),
+                    '',
+                    '',
                     '',
                     '')
         updateAll()
@@ -867,7 +882,7 @@ if __name__ == "__main__":
     app.btnViewAll.configure(command=view_command)
     app.btnBuscar.configure(command=search_command)
     app.btnInserir.configure(command=insert_command)#insert_command)
-    app.btnUpdate.configure(command=update_command)
+    #app.btnUpdate.configure(command=update_command)
     app.btnDel.configure(command=del_command)
     app.btnClose.configure(command=app.window.destroy)
     app.btnCalculaIRPFMensal.configure(command=calculaIRPF)
