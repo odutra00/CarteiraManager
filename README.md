@@ -22,12 +22,13 @@ Para editar uma entrada, selecione a mesma da lista, em seguida delete-a, modifi
 que quiser modificar, insira a entrada novamente.
 
 Para o cálculo do IRPF, insira uma data no campo controles (pode ser apenas mês e ano),
-no formato DD/MM/AAAA ou MM/AAAA. O imposto será calculado no campo IRPF Mensal.
+no formato DD/MM/AAAA ou MM/AAAA. O imposto será calculado no campo IRPF Mensal, para o mês escolhido.
+Na declaração de IRPF anual, no programa de IRPF, caso as vendas do mês ultrapassarem R$20.000,00 (for necessário gerar DARF), lancar em renda variável o valor do (Lucro Bruto - Desepsas). Caso contrário, lançar o somatório desse mesmo valor, para todos os meses em que Vendas < R$20.000,00, em Rendimentos Isentos e Não Tributáveis, classe 20).
 
 Se você quiser visualizar os indicadores de um ativo que não possuir em sua carteira,
-basta digital o ticker do mesmmo no campo Ação e clicar em Buscar.
-Você também pode selecionar da lista de entradas um ativo operado no mês de interesse. Daí, é 
-só clicar em Calcula IRPF Mensal.
+basta digital o ticker do mesmmo no campo Ação e clicar em Buscar. 
+Você também pode selecionar da lista de operações realizadas um ativo de interesse. 
+A fonte dos dados é o investpy.
 
 Observações: 
 
