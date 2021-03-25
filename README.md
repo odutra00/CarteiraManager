@@ -16,13 +16,13 @@ arquivo csv (separador ;), em formatação ANSI (obrigatoriamente). As colunas n
 Mercado;Papel;Status;Data;Valor;Quantidade;Custos
 
 Em que:
-<pre>Mercado --> Vista ou Opções</pre>
-<pre>Papel --> Ticker do ativo</pre>
-<pre>Status --> Compra ou Venda</pre>
-<pre>Data --> Data da Operação, no formato DD/MM/YYYY</pre>
-<pre>Valor --> Valor negociado pelo ativo (compra ou venda). Não use separador de milhar. O separador decimal deve ser a vírgula</pre>
-<pre>Quantidade --> Quantidade negociada</pre>
-<pre>Custos --> Taxa da corretora, emolumentos da B3, etc</pre>
+<pre><b>Mercado</b> --> <b>Vista</b> ou <b>Opções</b></pre>
+<pre><b>Papel</b> --> Ticker do ativo</pre>
+<pre><b>Status</b> --> <b>Compra</b> ou <b>Venda</b></pre>
+<pre><b>Data</b> --> Data da Operação, no formato <b>DD/MM/YYYY</b></pre>
+<pre><b>Valor</b> --> Valor negociado pelo ativo (compra ou venda). Não use separador de milhar. O separador decimal deve ser a vírgula</pre>
+<pre><b>Quantidade</b> --> Quantidade negociada</pre>
+<pre><b>Custos</b> --> Taxa da corretora, emolumentos da B3, etc</pre>
 
 Você pode inserir uma entrada a qualquer momento. Os valores de preço médio, 
 quantidade consolidada, posição consolidada, serão recalculados automaticamente.
