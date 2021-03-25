@@ -44,11 +44,7 @@ Observações:
 1) Os gráficos "Posição Consolidada" e "Desempenho" podem demorar um pouco para serem atualizados
 pois os dados das cotações atuais são puxados da Internet, através do módulo "investpy.py"
 
-2) Os gráficos "Posição Consolidada" e "Desempenho" não são desenhados automaticamente devido 
-MatPlotlib não funcionar com threads. Assim, após a barra de loading finalizar, clique em algum controle 
-de gráfico e depois no gráfico para que o mesmo seja desenhado.
-
-3) O gráfico "Desempenho" apresenta os ganhos (ou perdas) normalizados para a primeira operação daquele 
+2) O gráfico "Desempenho" apresenta os ganhos (ou perdas) normalizados para a primeira operação daquele 
 ativo / índice presente em sua carteira. A toda nova operação, o gráfico se renormaliza de acordo.
 Assim, um valor de 1 significa que o valor atual é o mesmo investido.
 Um valor maior que um, siginifica ganho; um valor menor que um, significa perda.
