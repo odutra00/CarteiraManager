@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 import tkfontchooser
+import ToolTip
 #from tkcalendar import *
 from tkinter import filedialog
 from tkinter.filedialog import askopenfilename
@@ -231,6 +232,34 @@ class Gui:
     entImpostosDevidos = Entry(frameIRPF, textvariable=txtImpostosDevidos, state='disabled', width=12, font=mono_font_IRPF)
 
 
+    ToolTip.CreateToolTip (labelLucroBruto, text = "Lucro antes de descontar \n"
+                                                   "taxas de operação, corretagem, etc \n"
+                                                   "e impostos.\n"
+                                                   "No programa de IRPF, caso as vendas do \n"
+                                                  "mês ultrapassarem R$20.000,00, lancar em renda\n"
+                                                  "variável o valor do Lucro Bruto - Desepsas.\n"
+                                                  "Caso contrário, lançar o somatório desse mesmo valor, \n"
+                                                  "para todos os meses em que Vendas < R$20.000,00, em\n"
+                                                  "Rendimentos Isentos e Não Tributáveis, classe 20")
+
+    ToolTip.CreateToolTip(labelDespesasMensais, text="Despesas operacionais:\n"
+                                                     "taxas de operação, corretagem, \n"
+                                                     "emolumentos, etc")
+
+    ToolTip.CreateToolTip(labelLucroLiquido, text="Lucro Bruto - Despesas - Impostos. \n"
+                                                  "No programa de IRPF, caso as vendas do \n"
+                                                  "mês ultrapassarem R$20.000,00, lancar em renda\n"
+                                                  "variável o valor do Lucro Bruto - Desepsas.\n"
+                                                  "Caso contrário, lançar o somatório desse mesmo valor, \n"
+                                                  "para todos os meses em que Vendas < R$20.000,00, em\n"
+                                                  "Rendimentos Isentos e Não Tributáveis, classe 20")
+
+    ToolTip.CreateToolTip(labelIRPFRetido, text="Imposto retido na fonte pela corretora.\n"
+                                                "Lançar esse valor no programa de IRPF, \n"
+                                                "area de Renda Variável, para o referido mês.\n"
+                                                "É o dedo-duro para a receita checar os valores.\n"
+                                                "Conferir valor reportado pela corretora com\n"
+                                                "o desse programa.")
 
     #Posicionamento dos labels IRPF dentro do frameIRPF
     #cal.grid(row=0, column=0, columnspan=2)
