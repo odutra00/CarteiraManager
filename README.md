@@ -20,7 +20,7 @@ Em que:
 <pre><b>Papel</b> --> Ticker do ativo</pre>
 <pre><b>Status</b> --> <b>Compra</b> ou <b>Venda</b></pre>
 <pre><b>Data</b> --> Data da Operação, no formato <b>DD/MM/YYYY</b></pre>
-<pre><b>Valor</b> --> Valor negociado pelo ativo (compra ou venda). Não use separador de milhar. O separador decimal deve ser a vírgula</pre>
+<pre><b>Valor</b> --> Valor negociado pelo ativo (compra ou venda). Não use separador de milhar. O separador decimal pode ser a vírgula ou o ponto</pre>
 <pre><b>Quantidade</b> --> Quantidade negociada</pre>
 <pre><b>Custos</b> --> Taxa da corretora, emolumentos da B3, etc</pre>
 
