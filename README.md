@@ -1,10 +1,10 @@
 # CarteiraManager V1.0
 Gerenciador de Carteiras de ações, com cálculo de IRPF (mensal e Day-Trade) e indicadores via investpy.py
 
-1) Banco de dados de ativos;
-2) Posição atual da carteira graficamente;
-3) Comparação de resultados, normalizados, dos papéis, carteira e IBOV;
-4) Cálculo do IRPF funciona para ativos que tenham as mesmas regras de ações (derivativos, ETFs, ações);
+<pre>1) Banco de dados de ativos;</pre>
+<pre>2) Posição atual da carteira graficamente;</pre>
+<pre>3) Comparação de resultados, normalizados, dos papéis, carteira e IBOV;</pre>
+<pre>4) Cálculo do IRPF funciona para ativos que tenham as mesmas regras de ações (derivativos, ETFs, ações);</pre>
 
 
 Este programa se propõe a gerenciar a carteira de ativos de um investidor.
@@ -12,8 +12,17 @@ Este programa se propõe a gerenciar a carteira de ativos de um investidor.
 Qualquer ativo que seguir as regras de imposto de renda de ações e ETFs pode ser gerenciado.
 
 Para começar a usar, basta inserir os valores pedidos no menu "Controles" ou importar um 
-arquivo csv, em formatação ANSI (obrigatoriamente). As colunas necessárias são exemplificadas 
-no exemplo ExemploCSVImportacao.csv
+arquivo csv (separador ;), em formatação ANSI (obrigatoriamente). As colunas necessárias são dadas a seguir:
+Mercado;Papel;Status;Data;Valor;Quantidade;Custos
+
+Em que:
+<pre>Mercado --> Vista ou Opções</pre>
+<pre>Papel --> Ticker do ativo</pre>
+<pre>Status --> Compra ou Venda</pre>
+<pre>Data --> Data da Operação, no formato DD/MM/YYYY</pre>
+<pre>Valor --> Valor negociado pelo ativo (compra ou venda). Não use separador de milhar. O separador decimal deve ser a vírgula</pre>
+<pre>Quantidade --> Quantidade negociada</pre>
+<pre>Custos --> Taxa da corretora, emolumentos da B3, etc</pre>
 
 Você pode inserir uma entrada a qualquer momento. Os valores de preço médio, 
 quantidade consolidada, posição consolidada, serão recalculados automaticamente.
