@@ -778,11 +778,13 @@ def getCotacaoPapeisCarteira():
             serieValue = serieValue.append((row[10] * cotacao), ignore_index=True)
             serieIndex = serieIndex.append(pd.Series(row[2]), ignore_index=True)
         except ValueError:
-            print("Não achou o papel" + row[2])
-            messagebox.showwarning("Papel " + row[2] + "não foi encontrado na base de dados Invest")
+            print("ValueError Exception. Não achou o papel: " + row[2])
+            messagebox.showwarning("ValueError Exception.",
+                                   "Papel " + row[2] + "não foi encontrado na base de dados Invest")
         except RuntimeError:
-            print("Algum problema aconteceu. Tente novamente. " + row[2])
-            messagebox.showwarning("Algum problema aconteceu. Tente novamente. ")
+            print("RunTime Exception", "Tente novamente. Ativo: " + row[2])
+            messagebox.showwarning("RunTime Exception",
+                                   "Tente novamente. " + row[2])
     posicao = pd.DataFrame(serieValue)
     posicao.set_index(serieIndex, inplace=True)
     return posicao
@@ -803,10 +805,10 @@ def getIndicadoresTecnicos(papel):
             cont = cont + 1
     except ValueError:
         app.textAreaIndicators.delete('1.0', END)
-        app.textAreaIndicators.insert(INSERT, 'Papel não encontrado no Invest.com')
+        app.textAreaIndicators.insert(INSERT, 'ValueError Exception. Papel não encontrado no Invest.com')
     except RuntimeError:
         app.textAreaIndicators.delete('1.0', END)
-        app.textAreaIndicators.insert(INSERT, 'Algum problema aconteceu. Tente novamente. ')
+        app.textAreaIndicators.insert(INSERT, 'RunTime Exception. Tente novamente. ')
 
 
 def getIndicadoresFundamentalistas(papel):

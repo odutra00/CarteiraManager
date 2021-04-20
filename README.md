@@ -1,5 +1,7 @@
 # CarteiraManager V1.0
 Gerenciador de Carteiras de ações, com cálculo de IRPF (mensal e Day-Trade) e indicadores via investpy.py
+Roda em Python 3.8.
+Utiliza os dados do portal Investing.com, através do pacote investpy.
 
 <pre>1) Banco de dados de ativos;</pre>
 <pre>2) Posição atual da carteira graficamente;</pre>
