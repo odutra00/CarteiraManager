@@ -14,19 +14,27 @@ from multiprocessing import Process
 
 app = None
 
+def escreveLista(rows):
+    for i in app.listPapels.get_children():
+        app.listPapels.delete(i)
+    novaR = preparaDadosExibicaoLista(rows)
+    booleano = TRUE
+    for row in novaR:
+        if booleano:
+            app.listPapels.insert("", "end", text=row[0], values=row[1:], tags="impar")
+            booleano = FALSE
+        else:
+            app.listPapels.insert("", "end", text=row[0], values=row[1:], tags="par")
+            booleano = TRUE
+
 def view_command():
     rows = core.viewAll()
-    app.listPapels.delete(0, END)
-    novaR = preparaDadosExibicaoLista(rows)
-    for lista in novaR:
-        app.listPapels.insert(END, lista)
-
+    escreveLista(rows)
     if app.entPapel.get():
         getIndicadoresTecnicos(app.entPapel.get())
         getIndicadoresFundamentalistas(app.entPapel.get())
 
 def search_command():
-    app.listPapels.delete(0, END)
     dataCorreta, data, tipo = getDate()
     if dataCorreta:
         if tipo == 'DiaMesAno':
@@ -47,9 +55,7 @@ def search_command():
         rows = core.search(app.txtMercado.get(), app.txtPapel.get(), app.txtStatus.get(), '', '', '',
                            app.txtValorCompra.get(), '', app.txtQuantidade.get(), '', app.txtCustos.get())
 
-    novaR = preparaDadosExibicaoLista(rows)
-    for lista in novaR:
-        app.listPapels.insert(END, lista)
+    escreveLista(rows)
 
     if app.entPapel.get():
         getIndicadoresTecnicos(app.entPapel.get())
@@ -76,7 +82,7 @@ def preparaDadosExibicaoLista(rows):
         #todo remover os itens que não vale a pena mostrar depois
 
         for item in lista:
-            item = '\t' + str(item)
+            #item = '\t' + str(item)
             listaNova.append(item)
         novaR.append(listaNova)
     return novaR
@@ -144,7 +150,8 @@ def update_command():#atualiza uma entrada do DB. Atualiza os charts
         updateAll()
 
 
-
+#todo verificar essa logica. Alguns papeis não estão tendo o status consolidado (liquidado) corretamente
+#deveriam ter status true quando uma operação de venda o liquida.
 def updatePMConsolidado():#atualiza uma entrada do DB. Atualiza os charts
     dataCorreta, data, tipo = getDate()
     operacoesPapel = core.viewAll()
@@ -176,13 +183,13 @@ def updatePMConsolidado():#atualiza uma entrada do DB. Atualiza os charts
 
     operacoesPapel = core.viewAll()
     for operacaoPapel in operacoesPapel:
-        core.updateConsolidado(operacaoPapel[0], "FALSE")
+        core.updateLiquidado(operacaoPapel[0], "FALSE")
 
     papeis = core.searchPapeisDistintos()
     for papel in papeis:
         operacoesPapel = core.searchPapeisDistintosDataDescendente(papel) #todo talvez o correto seja searchPapeisDistintosDataDescendente
                                                                             # organizar decrescente pelo id e não pela data
-        core.updateConsolidado(operacoesPapel[0][0], "TRUE")
+        core.updateLiquidado(operacoesPapel[0][0], "TRUE")
 
 
 def updateAll():
@@ -224,13 +231,12 @@ def del_command():#deleta uma entrada do db. atualiza o pm e os charts
 
 def getSelectedRow(event):
     global selected
-    index = app.listPapels.curselection()[0]
-    selected = app.listPapels.get(index)
+    focused = app.listPapels.focus()
+    selected = app.listPapels.item(focused, "values")
+    categoria = app.listPapels.item(focused, "text")
+    selected = [categoria] + list(selected)
+
     app.comboMercado.delete(0, END)
-    i = 0
-    # for item in selected:
-    #     selected[i].replace('\t', '')
-    #     i = i + 1
     app.comboMercado.insert(END, selected[0].replace('\t', ''))
     app.entPapel.delete(0, END)
     app.entPapel.insert(END, selected[1].replace('\t', ''))
@@ -259,7 +265,7 @@ def exportCSV():
     with open(filename, mode='w') as operacoes:
         operacoes_writer = csv.writer(operacoes, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         operacoes_writer.writerow(['Numero da Operação', 'Mercado', 'Papel', 'Status', 'Data', 'Mes', 'Ano', 'Valor',
-                                   'PM', 'Quantidade', 'Quantidade Consolidada', 'Custos', 'Consolidado',
+                                   'PM', 'Quantidade', 'Quantidade Consolidada', 'Custos', 'Liquidado',
                                    'Valor Atual', 'Data de Fechamento', 'Day-Trade'])
         # rows = app.listPapels.get(0, END)
         # for row in rows:
@@ -281,7 +287,7 @@ def importCSV():
         # # Busca a operação consolidada daquele papel e mercado para atualizá-la para não consolidada
         # row = core.searchPapelConsolidado(operacao["Mercado"], operacao["Papel"], "TRUE")
         # if row:
-        #     core.updateConsolidado(row[0][0], "FALSE")
+        #     core.updateLiquidado(row[0][0], "FALSE")
         #
         # pm, consolidado = calculaPmConsolidado(operacao["Mercado"], operacao["Papel"], operacao["Status"],
         #                                        datetime.strptime(operacao["Data"], '%d/%m/%Y'),
@@ -880,7 +886,7 @@ def iniciaThreadPie():
 
 if __name__ == "__main__":
     app = Gui()
-    app.listPapels.bind('<<ListboxSelect>>', getSelectedRow)
+    app.listPapels.bind('<<TreeviewSelect>>', getSelectedRow)
     app.btnViewAll.configure(command=view_command)
     app.btnBuscar.configure(command=search_command)
     app.btnInserir.configure(command=insert_command)#insert_command)

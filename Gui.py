@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-import tkfontchooser
+#import tkfontchooser
 import ToolTip
 #from tkcalendar import *
 from tkinter import filedialog
@@ -23,9 +23,9 @@ class Gui:
     window          = Tk()
     window.wm_title("Cadastro de Ações")
     window.geometry('1920x990')
-    mono_font = tkfontchooser.Font(family="Arial", size=18)
-    mono_font_IRPF = tkfontchooser.Font(family="Arial", size=16)
-    mono_font_Indicadores = tkfontchooser.Font(family="Arial", size=15)
+    #mono_font = tkfontchooser.Font(family="Arial", size=18)
+    #mono_font_IRPF = tkfontchooser.Font(family="Arial", size=16)
+    #mono_font_Indicadores = tkfontchooser.Font(family="Arial", size=15)
 
     #Criando Menus
     menubar = Menu(window)
@@ -68,13 +68,13 @@ class Gui:
     frameButoes = LabelFrame(window, text="Controles")
 
     #Criando os objetos que estarão na janela...
-    lblMercado      = Label(frameButoes, text="Mercado", font=mono_font)
-    lblPapel        = Label(frameButoes, text="Ação", font=mono_font)
-    lblStatus       = Label(frameButoes, text="Status", font=mono_font)
-    lblData         = Label(frameButoes, text="Data", font=mono_font)
-    lblValorCompra  = Label(frameButoes, text="Valor", font=mono_font)
-    lblQuantidade   = Label(frameButoes, text="Quantidade", font=mono_font)
-    lblCustos       = Label(frameButoes, text="Custos", font=mono_font)
+    lblMercado      = Label(frameButoes, text="Mercado") #, font=mono_font)
+    lblPapel        = Label(frameButoes, text="Ação") #, font=mono_font)
+    lblStatus       = Label(frameButoes, text="Status") #, font=mono_font)
+    lblData         = Label(frameButoes, text="Data") #, font=mono_font)
+    lblValorCompra  = Label(frameButoes, text="Valor") #, font=mono_font)
+    lblQuantidade   = Label(frameButoes, text="Quantidade") #, font=mono_font)
+    lblCustos       = Label(frameButoes, text="Custos") #, font=mono_font)
 
     #Criando campos de Input
     #entMercado      = Entry(window, textvariable=txtMercado)
@@ -82,53 +82,68 @@ class Gui:
                                         "Vista",
                                         "Opções"],
                                     state="Vista",
-                                    textvariable=txtMercado,
-                                    font=mono_font)
+                                    textvariable=txtMercado) #, font=mono_font)
     entPapel        = Entry(frameButoes,
-                            textvariable=txtPapel,
-                            font=mono_font)
+                            textvariable=txtPapel)# , font=mono_font)
     #entStatus       = Entry(window, textvariable=txtStatus)
     comboStatus = ttk.Combobox(frameButoes, values=[
                                         "Compra",
                                         "Venda"],
                                state="Compra",
-                               textvariable=txtStatus,
-                               font=mono_font)
-    entData         = Entry(frameButoes, textvariable=txtData, font=mono_font)
-    entValor        = Entry(frameButoes, textvariable=txtValorCompra, font=mono_font)
-    entQuantidade   = Entry(frameButoes, textvariable=txtQuantidade, font=mono_font)
-    entCustos       = Entry(frameButoes, textvariable=txtCustos, font=mono_font)
+                               textvariable=txtStatus) #, font=mono_font)
+    entData         = Entry(frameButoes, textvariable=txtData) #, font=mono_font)
+    entValor        = Entry(frameButoes, textvariable=txtValorCompra) #, font=mono_font)
+    entQuantidade   = Entry(frameButoes, textvariable=txtQuantidade) #, font=mono_font)
+    entCustos       = Entry(frameButoes, textvariable=txtCustos) #, font=mono_font)
 
 
 
 
-    #Criando ListBox e ScrollBar
+    #Criando ListaTkTreectrl e ScrollBar
     frameList = LabelFrame(window, text='')#"Labels das colunas e a lista e a scroll bar
-    labelsColunas = Label(frameList,
-                          text="   MKT\t Papel\t Status\t        Data         Preço        PM          N        NC     Custos",
-                          font=mono_font)
-    #For windows
-    # labelsColunas = Label(frameList,
-    #                       text="   MKT   Papel    Status         Data         Preço      PM        N     NC    Custos",
-    #                       font=mono_font)
-    listPapels   = Listbox(frameList, width=70, height=14, font=mono_font)
+    listPapels = ttk.Treeview(frameList,  height=19)
+    listPapels.tag_configure("impar", background="#cccccc")
+    listPapels.tag_configure("par", background="#ffffff")
+    listPapels["columns"] = (
+                             "Papel",
+                             "Status",
+                             "Data",
+                             "Preço",
+                             "PM",
+                             "N",
+                             "NC",
+                             "Custos")
+    listPapels.column("#0", width=80)
+    listPapels.column("Papel", width=70)
+    listPapels.column("Status", width=70)
+    listPapels.column("Data", width=80)
+    listPapels.column("Preço", width=80)
+    listPapels.column("PM", width=80)
+    listPapels.column("N", width=70)
+    listPapels.column("NC", width=70)
+    listPapels.column("Custos", width=70)
+    listPapels.heading("#0", text="MKT", anchor=W)
+    listPapels.heading("Papel", text="Papel", anchor=W)
+    listPapels.heading("Status", text="Status", anchor=W)
+    listPapels.heading("Data", text="Data", anchor=W)
+    listPapels.heading("Preço", text="Preço", anchor=W)
+    listPapels.heading("PM", text="PM", anchor=W)
+    listPapels.heading("N", text="N", anchor=W)
+    listPapels.heading("NC", text="NC", anchor=W)
+    listPapels.heading("Custos", text="Custos", anchor=W)
     scrollPapelsY = Scrollbar(frameList)
-    #scrollPapelsX = Scrollbar(frameList)
-    labelsColunas.grid(row=0, column=0, columnspan=2, sticky=W)
-    listPapels.grid(row=1, column=0, rowspan=9, sticky='nesw')
-    scrollPapelsY.grid(row=1, column=1, rowspan=9, sticky='nes')
-    #scrollPapelsX.grid(row=10, column=1, rowspan=9, sticky='nesw')
+    scrollPapelsX = Scrollbar(frameList, orient=HORIZONTAL)
+    listPapels.grid(row=0, column=0, rowspan=1, columnspan=3, sticky='nesw')
+    scrollPapelsY.grid(row=0, column=3, rowspan=1, sticky='nes')
+    scrollPapelsX.grid(row=1, column=3, rowspan=1, sticky='nesw')
 
     #Criando Botoes
-    btnViewAll     = Button(frameButoes, text="Ver todos", font=mono_font)
-    btnBuscar      = Button(frameButoes, text="Buscar", font=mono_font)
-    btnInserir     = Button(frameButoes, text="Inserir", font=mono_font)
-    #btnUpdate      = Button(frameButoes, text="Atualizar Selecionado", font=mono_font)
-    btnDel         = Button(frameButoes, text="Deletar Selecionado", font=mono_font)
-    btnClose       = Button(frameButoes, text="Fechar", font=mono_font)
-
-    #Criando Message Box
-    #About = messagebox.showinfo(title=None, message=None, **options)¶
+    btnViewAll     = Button(frameButoes, text="Ver todos") #, font=mono_font)
+    btnBuscar      = Button(frameButoes, text="Buscar") #, font=mono_font)
+    btnInserir     = Button(frameButoes, text="Inserir") #, font=mono_font)
+    #btnUpdate      = Button(frameButoes, text="Atualizar Selecionado") #, font=mono_font)
+    btnDel         = Button(frameButoes, text="Deletar Selecionado") #, font=mono_font)
+    btnClose       = Button(frameButoes, text="Fechar") #, font=mono_font)
 
     #Criando a região do Plot PIE Posição Consolidada
     framePie = LabelFrame(window, text='')#"Controles Posição Consolidada")
@@ -196,10 +211,9 @@ class Gui:
 
     # Frame to Exbit both IRPF Day-Trade and regular for the chosen month
     txtLabelFrameBoth = "IRPF Mensal"
-    frameIRPFBoth = LabelFrame(window, text=txtLabelFrameBoth, padx=5, pady=10, font=mono_font_IRPF)
+    frameIRPFBoth = LabelFrame(window, text=txtLabelFrameBoth, padx=5, pady=10) #) #, font=mono_font_IRPF)
     btnCalculaIRPFMensal = Button(frameIRPFBoth,
-                                  text="Calcula IRPF Mensal",
-                                  font=mono_font)
+                                  text="Calcula IRPF Mensal") #, font=mono_font)
     btnCalculaIRPFMensal.grid(row=1, column=0, columnspan=2, sticky='nesw')
 
 
@@ -213,23 +227,23 @@ class Gui:
     #Frame to Exbit due IRPF Regular for the chosen month
     txtLabelFrame = "IRPF Regular Mensal"
     frameIRPF = LabelFrame(frameIRPFBoth, text=txtLabelFrame, width=5)#, padx=20, pady=20)
-    labelMercado = Label(frameIRPF, text="Mercado", font=mono_font_IRPF)
-    labelVendas = Label(frameIRPF, text="Vendas", font=mono_font_IRPF)
-    labelLucroBruto = Label(frameIRPF, text="L. Bruto", font=mono_font_IRPF)
-    labelDespesasMensais = Label(frameIRPF, text="Despesas", font=mono_font_IRPF)
-    labelLucroLiquido = Label(frameIRPF, text="L. Líquido", font=mono_font_IRPF)
-    labelLucroLiquidoPercentual = Label(frameIRPF, text="L. Líquido %", font=mono_font_IRPF)
-    labelIRPFRetido = Label(frameIRPF, text="IRPF Retido", font=mono_font_IRPF)
-    labelImpostosDevidos = Label(frameIRPF, text="IRPF Devido", font=mono_font_IRPF)
+    labelMercado = Label(frameIRPF, text="Mercado") #, font=mono_font_IRPF)
+    labelVendas = Label(frameIRPF, text="Vendas") #, font=mono_font_IRPF)
+    labelLucroBruto = Label(frameIRPF, text="L. Bruto") #, font=mono_font_IRPF)
+    labelDespesasMensais = Label(frameIRPF, text="Despesas") #, font=mono_font_IRPF)
+    labelLucroLiquido = Label(frameIRPF, text="L. Líquido") #, font=mono_font_IRPF)
+    labelLucroLiquidoPercentual = Label(frameIRPF, text="L. Líquido %") #, font=mono_font_IRPF)
+    labelIRPFRetido = Label(frameIRPF, text="IRPF Retido") #, font=mono_font_IRPF)
+    labelImpostosDevidos = Label(frameIRPF, text="IRPF Devido") #, font=mono_font_IRPF)
 
     #entMercadoIRPF = Entry(frameIRPF, textvariable=txtMercadoIRPF, state='disabled', width=2)
-    entVendas = Entry(frameIRPF, textvariable=txtVendas, state='disabled', width=12, font=mono_font_IRPF)
-    entLucroBruto = Entry(frameIRPF, textvariable=txtLucroBruto, state='disabled', width=12, font=mono_font_IRPF)
-    entDespesasMensais = Entry(frameIRPF, textvariable=txtDespesasMensais, state='disabled', width=12, font=mono_font_IRPF)
-    entLucroLiquido = Entry(frameIRPF, textvariable=txtLucroLiquido, state='disabled', width=12, font=mono_font_IRPF)
-    entLucroLiquidoPercentual = Entry(frameIRPF, textvariable=txtLucroLiquidoPercentual, state='disabled', width=12, font=mono_font_IRPF)
-    entIRPFRetido = Entry(frameIRPF, textvariable=txtIRPFRetidoFonte, state='disabled', width=12, font=mono_font_IRPF)
-    entImpostosDevidos = Entry(frameIRPF, textvariable=txtImpostosDevidos, state='disabled', width=12, font=mono_font_IRPF)
+    entVendas = Entry(frameIRPF, textvariable=txtVendas, state='disabled', width=12) #, font=mono_font_IRPF)
+    entLucroBruto = Entry(frameIRPF, textvariable=txtLucroBruto, state='disabled', width=12) #, font=mono_font_IRPF)
+    entDespesasMensais = Entry(frameIRPF, textvariable=txtDespesasMensais, state='disabled', width=12) #, font=mono_font_IRPF)
+    entLucroLiquido = Entry(frameIRPF, textvariable=txtLucroLiquido, state='disabled', width=12) #, font=mono_font_IRPF)
+    entLucroLiquidoPercentual = Entry(frameIRPF, textvariable=txtLucroLiquidoPercentual, state='disabled', width=12) #, font=mono_font_IRPF)
+    entIRPFRetido = Entry(frameIRPF, textvariable=txtIRPFRetidoFonte, state='disabled', width=12) #, font=mono_font_IRPF)
+    entImpostosDevidos = Entry(frameIRPF, textvariable=txtImpostosDevidos, state='disabled', width=12) #, font=mono_font_IRPF)
 
 
     ToolTip.CreateToolTip (labelLucroBruto, text = "Lucro antes de descontar \n"
@@ -303,23 +317,23 @@ class Gui:
     txtLabelFrameDayTrade = "IRPF DayTrade Mensal"
     frameIRPFDayTrade = LabelFrame(frameIRPFBoth, text=txtLabelFrameDayTrade)#, padx=20, pady=20)
 
-    labelMercadoDT = Label(frameIRPFDayTrade, text="Mercado", font=mono_font_IRPF)
-    labelVendasDT = Label(frameIRPFDayTrade, text="Vendas", font=mono_font_IRPF)
-    labelLucroBrutoDT = Label(frameIRPFDayTrade, text="L. Bruto", font=mono_font_IRPF)
-    labelDespesasMensaisDT = Label(frameIRPFDayTrade, text="Despesas", font=mono_font_IRPF)
-    labelLucroLiquidoDT = Label(frameIRPFDayTrade, text="L. Líquido", font=mono_font_IRPF)
-    labelLucroLiquidoPercentualDT = Label(frameIRPFDayTrade, text="L. Líquido %", font=mono_font_IRPF)
-    labelIRPFRetidoDT = Label(frameIRPFDayTrade, text="IRPF Retido", font=mono_font_IRPF)
-    labelImpostosDevidosDT = Label(frameIRPFDayTrade, text="IRPF Devido", font=mono_font_IRPF)
+    labelMercadoDT = Label(frameIRPFDayTrade, text="Mercado") #, font=mono_font_IRPF)
+    labelVendasDT = Label(frameIRPFDayTrade, text="Vendas") #, font=mono_font_IRPF)
+    labelLucroBrutoDT = Label(frameIRPFDayTrade, text="L. Bruto") #, font=mono_font_IRPF)
+    labelDespesasMensaisDT = Label(frameIRPFDayTrade, text="Despesas") #, font=mono_font_IRPF)
+    labelLucroLiquidoDT = Label(frameIRPFDayTrade, text="L. Líquido") #, font=mono_font_IRPF)
+    labelLucroLiquidoPercentualDT = Label(frameIRPFDayTrade, text="L. Líquido %") #, font=mono_font_IRPF)
+    labelIRPFRetidoDT = Label(frameIRPFDayTrade, text="IRPF Retido") #, font=mono_font_IRPF)
+    labelImpostosDevidosDT = Label(frameIRPFDayTrade, text="IRPF Devido") #, font=mono_font_IRPF)
 
-    entMercadoIRPFDT = Entry(frameIRPFDayTrade, textvariable=txtMercadoIRPFDT, state='disabled', width=12, font=mono_font_IRPF)
-    entVendasDT = Entry(frameIRPFDayTrade, textvariable=txtVendasDT, state='disabled', width=12, font=mono_font_IRPF)
-    entLucroBrutoDT = Entry(frameIRPFDayTrade, textvariable=txtLucroBrutoDT, state='disabled', width=12, font=mono_font_IRPF)
-    entDespesasMensaisDT = Entry(frameIRPFDayTrade, textvariable=txtDespesasMensaisDT, state='disabled', width=12, font=mono_font_IRPF)
-    entLucroLiquidoDT = Entry(frameIRPFDayTrade, textvariable=txtLucroLiquidoDT, state='disabled', width=12, font=mono_font_IRPF)
-    entLucroLiquidoPercentualDT = Entry(frameIRPFDayTrade, textvariable=txtLucroLiquidoPercentualDT, state='disabled', width=12, font=mono_font_IRPF)
-    entIRPFRetidoDT = Entry(frameIRPFDayTrade, textvariable=txtIRPFRetidoFonteDT, state='disabled', width=12, font=mono_font_IRPF)
-    entImpostosDevidosDT = Entry(frameIRPFDayTrade, textvariable=txtImpostosDevidosDT, state='disabled', width=12, font=mono_font_IRPF)
+    entMercadoIRPFDT = Entry(frameIRPFDayTrade, textvariable=txtMercadoIRPFDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entVendasDT = Entry(frameIRPFDayTrade, textvariable=txtVendasDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entLucroBrutoDT = Entry(frameIRPFDayTrade, textvariable=txtLucroBrutoDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entDespesasMensaisDT = Entry(frameIRPFDayTrade, textvariable=txtDespesasMensaisDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entLucroLiquidoDT = Entry(frameIRPFDayTrade, textvariable=txtLucroLiquidoDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entLucroLiquidoPercentualDT = Entry(frameIRPFDayTrade, textvariable=txtLucroLiquidoPercentualDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entIRPFRetidoDT = Entry(frameIRPFDayTrade, textvariable=txtIRPFRetidoFonteDT, state='disabled', width=12) #, font=mono_font_IRPF)
+    entImpostosDevidosDT = Entry(frameIRPFDayTrade, textvariable=txtImpostosDevidosDT, state='disabled', width=12) #, font=mono_font_IRPF)
 
 
     labelVendasDT.grid(row=1, column=0, sticky='nesw')
@@ -356,14 +370,13 @@ class Gui:
 
 
     #Frame to Exbit indicadores tecnicos
-    frameIndTec = LabelFrame(window, text="Indicadores Técnicos",
-                             font=mono_font_Indicadores, padx=5, pady=5)
+    frameIndTec = LabelFrame(window, text="Indicadores Técnicos", padx=5, pady=5) #, font=mono_font_Indicadores, )
     #Labels
     #labelPL = Label(frameIndTec, text="P/L = ")
     #Entries
     #entPL = Entry(frameIndTec, textvariable=txtPL, state='disabled')
     #Caixa de Texto
-    textAreaIndicators = Text(frameIndTec, width=50, height=12, font=mono_font_Indicadores)
+    textAreaIndicators = Text(frameIndTec, width=50, height=12) #, font=mono_font_Indicadores)
     #Grid Indicadores Tecnicos dentro do frame
     #labelPL.grid(row=0, column=0, stick=W)
     #entPL.grid(row=0, column=1, stick=W)
@@ -371,10 +384,9 @@ class Gui:
 
 
     #Frame to Exbit Fundamentos
-    frameIndFund = LabelFrame(window, text="Informações",
-                              font=mono_font_Indicadores, padx=5, pady=5)
+    frameIndFund = LabelFrame(window, text="Informações", padx=5, pady=5) #, font=mono_font_Indicadores)
     #Caixa de Texto
-    textAreaIndicatorsFund = Text(frameIndFund, width=50, height=10, font=mono_font_Indicadores)
+    textAreaIndicatorsFund = Text(frameIndFund, width=50, height=10) #, font=mono_font_Indicadores)
     textAreaIndicatorsFund.grid(row=0, column=0, rowspan=6, columnspan=1, stick=W)
 
 
@@ -417,35 +429,23 @@ class Gui:
 
 
 
-    #Lista de exibição de ativos e scroo bar
-    #listPapels.grid(row=0, column=2, rowspan=9, columnspan=4, sticky=E)#, columnspan=1)
-    #scrollPapelsY.grid(row=0, column=6, rowspan=9, sticky=E)
-
-
-
-
-
-
-
-
-    #Canvas Alignment
-    canvasCarteiraPie.get_tk_widget().grid(row=9, column=0, columnspan=3, stick=NW)  # , ipadx=40, ipady=20)
-    framePie.grid(row=10, column=0, columnspan=3, stick=SW)
-    canvasDesempenho.get_tk_widget().grid(row=9, column=3, columnspan=5, stick=NW)
-    frameDesempenho.grid(row=10, column=3, columnspan=6, stick=SW)
-
     #Frames Alignment
-    frameButoes.grid(row=0, column=0, columnspan=2, rowspan=9)  # , sticky='nesw')
-    frameIndTec.grid(row=0, column=7, rowspan=8, stick=NW)
-    frameIndFund.grid(row=7, column=7, rowspan=3, stick=NW)
-    frameIRPFBoth.grid(row=9, column=7, columnspan=1, sticky='sw')
-    frameList.grid(row=0, column=2, rowspan=9, columnspan=4, sticky=E)#, columnspan=1)
+    frameButoes.grid(row=0, column=0) #, columnspan=2, rowspan=1)  # , sticky='nesw')
+    frameList.grid(row=0, column=1) #, rowspan=2, columnspan=2, sticky=E)#, columnspan=1)
+    frameIndTec.grid(row=0, column=2, stick=NW)
+    frameIndFund.grid(row=1, column=2, stick=NW)
+    frameIRPFBoth.grid(row=1, column=2, sticky=SW)
+    #Canvas Alignment
+    canvasCarteiraPie.get_tk_widget().grid(row=1, column=0) #, columnspan=3, stick=NW)  # , ipadx=40, ipady=20)
+    framePie.grid(row=2, column=0) #, columnspan=3, stick=SW)
+    canvasDesempenho.get_tk_widget().grid(row=1, column=1) #, columnspan=5, stick=NW)
+    frameDesempenho.grid(row=2, column=1) #, columnspan=6, stick=SW)
 
 
     #Associando a Scrollbar com a Listbox...
-    listPapels.configure(yscrollcommand=scrollPapelsY.set)#, xscrollcommand=scrollPapelsX.set)
+    listPapels.configure(yscrollcommand=scrollPapelsY.set, xscrollcommand=scrollPapelsX.set)
     scrollPapelsY.configure(command=listPapels.yview)
-    #scrollPapelsX.configure(command=listPapels.xview)
+    scrollPapelsX.configure(command=listPapels.xview)
 
     # Criando Progress Bar
     progressPIE = ttk.Progressbar(window, orient=HORIZONTAL,

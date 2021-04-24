@@ -40,14 +40,14 @@ class TransactionObject():
 def initDB():
     trans = TransactionObject()
     trans.connect()
-    trans.execute("CREATE TABLE IF NOT EXISTS STOCKS (id INTEGER PRIMARY KEY , mercado TEXT, papel TEXT, status TEXT, data DATE, mes INTEGER, ano INTEGER, valor DOUBLE, pm DOUBLE, quantidade INTEGER, qconsolidado INTEGER, custos DOUBLE, consolidado TEXT, valorAtual DOUBLE, dataFechamento DATE, dayTrade INTEGER)")
+    trans.execute("CREATE TABLE IF NOT EXISTS STOCKS (id INTEGER PRIMARY KEY , mercado TEXT, papel TEXT, status TEXT, data DATE, mes INTEGER, ano INTEGER, valor DOUBLE, pm DOUBLE, quantidade INTEGER, qconsolidado INTEGER, custos DOUBLE, liquidado TEXT, valorAtual DOUBLE, dataFechamento DATE, dayTrade INTEGER)")
     trans.persist()
     trans.disconnect()
 
-def insert(mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, consolidado, valorAtual, dataFechamento, dayTrade):
+def insert(mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, liquidado, valorAtual, dataFechamento, dayTrade):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("INSERT INTO STOCKS VALUES(NULL, ?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, consolidado, valorAtual, dataFechamento, dayTrade))
+    trans.execute("INSERT INTO STOCKS VALUES(NULL, ?,?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, liquidado, valorAtual, dataFechamento, dayTrade))
     trans.persist()
     trans.disconnect()
 
@@ -69,10 +69,10 @@ def viewAll():
     trans.disconnect()
     return rows
 
-def search(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", consolidado=""):
+def search(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", liquidado=""):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("SELECT * FROM STOCKS WHERE mercado=? or papel=? or status=? or data=? or mes=? or ano=? or valor=? or pm=? or quantidade=? or qconsolidado=? or custos=? or consolidado=?", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, consolidado))
+    trans.execute("SELECT * FROM STOCKS WHERE mercado=? or papel=? or status=? or data=? or mes=? or ano=? or valor=? or pm=? or quantidade=? or qconsolidado=? or custos=? or liquidado=?", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, liquidado))
     rows = trans.fetchall()
     trans.disconnect()
     return rows
@@ -93,18 +93,18 @@ def search2Edit(mercado="", papel="", status="", data="", valor="", quantidade="
     trans.disconnect()
     return rows
 
-# def searchReturnAll(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", consolidado=""):
+# def searchReturnAll(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", liquidado=""):
 #     trans = TransactionObject()
 #     trans.connect()
-#     trans.execute("SELECT * FROM STOCKS WHERE mercado=? or papel=? or status=? or data=? or mes=? or ano=? or valor=? or pm=? or quantidade=? or qconsolidado=? or custos=? or consolidado=?", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, consolidado))
+#     trans.execute("SELECT * FROM STOCKS WHERE mercado=? or papel=? or status=? or data=? or mes=? or ano=? or valor=? or pm=? or quantidade=? or qconsolidado=? or custos=? or liquidado=?", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, liquidado))
 #     rows = trans.fetchall()
 #     trans.disconnect()
 #     return rows
 
-def searchMonthandYear(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", consolidado=""):
+def searchMonthandYear(mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", liquidado=""):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("SELECT * FROM STOCKS WHERE mercado=? or papel=? or status=? or data=? or mes=? and ano=? or valor=? or pm=? or quantidade=? or qconsolidado=? or custos=? or consolidado=?", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, consolidado))
+    trans.execute("SELECT * FROM STOCKS WHERE mercado=? or papel=? or status=? or data=? or mes=? and ano=? or valor=? or pm=? or quantidade=? or qconsolidado=? or custos=? or liquidado=?", (mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, liquidado))
     rows = trans.fetchall()
     trans.disconnect()
     return rows
@@ -134,18 +134,18 @@ def searchPapeisDistintos():
     return rows
 
 
-def searchPapelConsolidado(mercado="", papel="", consolidado=""):
+def searchPapelLiquidado(mercado="", papel="", liquidado=""):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("SELECT * FROM STOCKS WHERE mercado=? and papel=? and consolidado=?", (mercado, papel, consolidado))
+    trans.execute("SELECT * FROM STOCKS WHERE mercado=? and papel=? and liquidado=?", (mercado, papel, liquidado))
     rows = trans.fetchall()
     trans.disconnect()
     return rows
 
-def searchPosicaoConsolidada(consolidado="", qconsolidado=""):
+def searchPosicaoConsolidada(liquidado="", qconsolidado=""):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("SELECT * FROM STOCKS WHERE consolidado=? and qconsolidado>?", (consolidado, qconsolidado))
+    trans.execute("SELECT * FROM STOCKS WHERE liquidado=? and qconsolidado>?", (liquidado, qconsolidado))
     rows = trans.fetchall()
     trans.disconnect()
     return rows
@@ -227,17 +227,17 @@ def delete(id):
     trans.persist()
     trans.disconnect()
 
-def update(id, mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", consolidado="", valorAtual="", dataFechamento="", dayTrade=""):
+def update(id, mercado="", papel="", status="", data="", mes="", ano="", valor="", pm="", quantidade="", qconsolidado="", custos="", liquidado="", valorAtual="", dataFechamento="", dayTrade=""):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("UPDATE STOCKS SET mercado =?, papel=?, status=?, data=?, mes=?, ano=?, valor=?, pm=?, quantidade=?, qconsolidado=?, custos=?, consolidado=?, valorAtual=?, dataFechamento=? , dayTrade=? WHERE id = ?",(mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, consolidado, valorAtual, dataFechamento, dayTrade, id))
+    trans.execute("UPDATE STOCKS SET mercado =?, papel=?, status=?, data=?, mes=?, ano=?, valor=?, pm=?, quantidade=?, qconsolidado=?, custos=?, liquidado=?, valorAtual=?, dataFechamento=? , dayTrade=? WHERE id = ?",(mercado, papel, status, data, mes, ano, valor, pm, quantidade, qconsolidado, custos, liquidado, valorAtual, dataFechamento, dayTrade, id))
     trans.persist()
     trans.disconnect()
 
-def updateConsolidado(id, consolidado=""):
+def updateLiquidado(id, liquidado=""):
     trans = TransactionObject()
     trans.connect()
-    trans.execute("UPDATE STOCKS SET consolidado=? WHERE id = ?", (consolidado, id))
+    trans.execute("UPDATE STOCKS SET liquidado=? WHERE id = ?", (liquidado, id))
     trans.persist()
     trans.disconnect()
 
