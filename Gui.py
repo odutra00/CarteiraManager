@@ -269,6 +269,10 @@ class Gui:
     entLucroLiquidoPercentual.grid(row=5, column=1, sticky='nesw')
     entIRPFRetido.grid(row=6, column=1, sticky='nesw')
     entImpostosDevidos.grid(row=7, column=1, sticky='nesw')
+
+    # Os frames abaixo estão linkados no frameIRPF
+    frameIRPF.grid(row=0, column=0, sticky='nesw')
+    frameIRPF.columnconfigure(0, weight=1)
     ##############################################################################################
     ##############################Fim Frame IRPF Regular - frameIRPF##############################
     ##############################################################################################
@@ -341,6 +345,9 @@ class Gui:
     entLucroLiquidoPercentualDT.grid(row=5, column=1, sticky='nesw')
     entIRPFRetidoDT.grid(row=6, column=1, sticky='nesw')
     entImpostosDevidosDT.grid(row=7, column=1, sticky='nesw')
+    #Os frames abaixo estão linkados no frameIRPFDT
+    frameIRPFDayTrade.grid(row=0, column=1, sticky='nesw')
+    frameIRPFDayTrade.columnconfigure(0, weight=1)
     ##############################################################################################
     ##############################Fim Frame IRPF DT - frameIRPF##############################
     ##############################################################################################
@@ -511,10 +518,6 @@ class Gui:
     frameIndTec.grid(row=0, column=2, stick=NW)
     frameIndFund.grid(row=1, column=2, stick=NW)
     frameIRPFBoth.grid(row=1, column=2, sticky=SW)
-    frameIRPF.grid(row=0, column=0, sticky='nesw')
-    frameIRPF.columnconfigure(0, weight=1)
-    frameIRPFDayTrade.grid(row=0, column=1, sticky='nesw')
-    frameIRPFDayTrade.columnconfigure(0, weight=1)
 
     canvasCarteiraPie.get_tk_widget().grid(row=1, column=0)  # , columnspan=3, stick=NW)  # , ipadx=40, ipady=20)
     framePie.grid(row=2, column=0) #, columnspan=3, stick=SW)
