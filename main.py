@@ -851,7 +851,7 @@ def iniciaThreadDesempenho():
     #         th = threading.Thread(target=updateDesempenho)  # create new instance if thread is dead
     #         th.start()
     def real_iniciaThreadDesempenho():
-        app.progressDesempenho.grid(row=9, column=3, columnspan=5, stick=NW, padx=250, pady=250)
+        app.progressDesempenho.grid(row=0, column=0, columnspan=3, sticky='nesw', padx=250, pady=250)
         app.progressDesempenho.lift()
         app.progressDesempenho.start()
         updateDesempenho()#time.sleep(5)
@@ -873,7 +873,7 @@ def iniciaThreadPie():
     #         th = threading.Thread(target=updatePieConsolidado)  # create new instance if thread is dead
     #         th.start()
     def real_iniciaThreadPie():
-        app.progressPIE.grid(row=9, column=0, sticky='nesw', columnspan=3, padx=250, pady=250)
+        app.progressPIE.grid(row=0, column=0, sticky='nesw', columnspan=3, padx=250, pady=250)
         app.progressPIE.lift()
         app.progressPIE.start()
         updatePieConsolidado()#time.sleep(5)

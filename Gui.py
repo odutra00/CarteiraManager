@@ -375,7 +375,7 @@ class Gui:
     ax1.set_title("Posição Consolidada")
     ax1.axis("equal")
     pie = ax1.pie(sizes, labels=labels, startangle=0)
-    canvasCarteiraPie = FigureCanvasTkAgg(fig, master=window)
+    canvasCarteiraPie = FigureCanvasTkAgg(fig, master=framePie)
     canvasCarteiraPie.draw()
     # creating the Matplotlib toolbar
     toolbarPie = NavigationToolbar2Tk(canvasCarteiraPie, framePie)
@@ -385,18 +385,13 @@ class Gui:
     progressPIE = ttk.Progressbar(framePie, orient=HORIZONTAL,
                                   length=150, mode='indeterminate')
     ############################### Arranjo dos WIdgets###########################################
-
-    toolbarPie.grid(row=0, column=0, sticky=W)
-    btnUpdatePie.grid(row=0, column=1, sticky=W)
+    toolbarPie.grid(row=1, column=0, sticky=W)
+    btnUpdatePie.grid(row=1, column=1, sticky=E)
+    progressPIE.grid(row=0, column=0, sticky='nesw', columnspan=2, padx=250, pady=250)
+    canvasCarteiraPie.get_tk_widget().grid(row=0, column=0, columnspan=2, sticky='nesw')  # , ipadx=40, ipady=20)
     ##############################################################################################
     ##############################Fim Frame GraficoPie - framePie##############################
     ##############################################################################################
-
-
-
-
-
-
 
 
 
@@ -414,7 +409,7 @@ class Gui:
     ax1Desempenho = figDesempenho.add_subplot(111)
     ax1Desempenho.set_title("Desempenho")
     linhaDesempenho = ax1Desempenho.plot()  # labelsDesempenho, sizesDesempenho)
-    canvasDesempenho = FigureCanvasTkAgg(figDesempenho, master=window)
+    canvasDesempenho = FigureCanvasTkAgg(figDesempenho, master=frameDesempenho)
     canvasDesempenho.draw()
     # creating the Matplotlib toolbar
     toolbarDesempenho = NavigationToolbar2Tk(canvasDesempenho, frameDesempenho)
@@ -435,14 +430,14 @@ class Gui:
                                  text="Refresh")
     toolbarDesempenho.update()
     #Criando a Progress Bar
-    progressPIE.grid(row=0, column=0)
     progressDesempenho = ttk.Progressbar(frameDesempenho, orient=HORIZONTAL,
                                          length=150, mode='indeterminate')
     ############################### Arranjo dos WIdgets###########################################
-
     toolbarDesempenho.grid(row=1, column=0, sticky=W)
-    chkBoxesFrame.grid(row=1, column=1, sticky=W)
-    btnUpdateDesempenho.grid(row=1, column=2, sticky=W)
+    chkBoxesFrame.grid(row=1, column=1, sticky=E)
+    btnUpdateDesempenho.grid(row=1, column=2, sticky=E)
+    progressDesempenho.grid(row=0, column=0, sticky='nesw', columnspan=3, padx=250, pady=250)
+    canvasDesempenho.get_tk_widget().grid(row=0, column=0, columnspan=3, stick='nesw')
     ##############################################################################################
     ######################Fim Frame Grafico Desempenho - frameDesempenho##########################
     ##############################################################################################
@@ -518,12 +513,12 @@ class Gui:
     frameIndTec.grid(row=0, column=2, stick=NW)
     frameIndFund.grid(row=1, column=2, stick=NW)
     frameIRPFBoth.grid(row=1, column=2, sticky=SW)
+    framePie.grid(row=1, column=0)  # , columnspan=3, stick=SW)
+    frameDesempenho.grid(row=1, column=1)  # , columnspan=6, stick=SW)
 
-    canvasCarteiraPie.get_tk_widget().grid(row=1, column=0)  # , columnspan=3, stick=NW)  # , ipadx=40, ipady=20)
-    framePie.grid(row=2, column=0) #, columnspan=3, stick=SW)
 
-    canvasDesempenho.get_tk_widget().grid(row=1, column=1, columnspan=3, stick=NW)
-    frameDesempenho.grid(row=2, column=1) #, columnspan=6, stick=SW)
+
+
     #############################################################################################
     ################################Frames Alignment#############################################
     #############################################################################################
