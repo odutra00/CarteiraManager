@@ -421,20 +421,15 @@ def plotaCompCarteixaIbov(dataInicio, dataFim):
         #pd.Series(list(papelNormalizado), index=carteiraDetalhada.index)
 
     if not app.varCarteira.get():
-        #del carteira['Carteira']
         carteira.drop('Carteira', axis='columns', inplace=True)
 
     app.ax1Desempenho.clear()
-    #app.ax1Desempenho.legend()
     app.ax1Desempenho.plot(carteira)
     app.ax1Desempenho.legend(carteira.columns)
     app.toolbarDesempenho.update_idletasks()
-    #app.ax1Desempenho.update
-    #app.canvasDesempenho.flush_events()
-    #app.toolbarDesempenho.home()
 
 
-def historicoIndiceCarteira(): #todo não pode pegar a data todate do invest.py pela data atual.
+def historicoIndiceCarteira():
     carteira = pd.DataFrame()
     carteiraDetalhada = pd.DataFrame()
     country = 'brazil'
@@ -447,29 +442,36 @@ def historicoIndiceCarteira(): #todo não pode pegar a data todate do invest.py 
         seriesQConsolidado = pd.Series()
         seriesPM = pd.Series()
         seriesCotacao = pd.Series()
-        while navegaOperacao < len(rows):#varre todas as operações daquele papel especifico
+        while navegaOperacao < len(rows):#varre até a penúltima operação daquele papel especificado
             iniciodate = datetime.strptime(rows[navegaOperacao][4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
-            if len(rows) == 1:
+            if len(rows) == 1:#há apenas uma entrada. fimDate é a data atual do dia
                 fimdate = date.today().strftime("%d/%m/%Y")
-            elif navegaOperacao == (len(rows) - 1):# and rows[navegaOperacao][10] > 0:
+            elif navegaOperacao == (len(rows) - 1) and rows[navegaOperacao][10] > 0: #última linha e ainda há posição
                 fimdate = date.today().strftime("%d/%m/%Y")
-            else:
-                fimdate = datetime.strptime(rows[navegaOperacao+1][4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
+            elif navegaOperacao == (len(rows) - 1) and rows[navegaOperacao][10] == 0: #última linha e não há posição
+                fimdate = datetime.strptime(rows[navegaOperacao][4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
+            else: #caso contrário, fimdate é sempre a data da próxima linha
+                fimdate = datetime.strptime(rows[navegaOperacao + 1][4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
 
+
+            #investpy requires fimDate > inicioDate
             if fimdate == iniciodate:
-                fimdate = (datetime.strptime(rows[navegaOperacao+1][4], "%Y-%m-%d %H:%M:%S") \
-                          + timedelta(days=1)).strftime("%d/%m/%Y")
+                fimdate = (datetime.strptime(rows[navegaOperacao][4], "%Y-%m-%d %H:%M:%S") \
+                           + timedelta(days=1)).strftime("%d/%m/%Y")
                 problemaData = TRUE
             try:
                 tamSerie = seriesCotacao.size  # tamanho da série antes do append
-
                 seriesHist = inv.get_stock_historical_data(itensCarteira[navegaPapel][0],
                                                       country=country,
                                                       from_date=iniciodate,
                                                       to_date=fimdate)['Close']
+                if problemaData:
+                    problemaData = FALSE
+                    if len(seriesHist)==2:
+                        seriesHist = seriesHist.drop(seriesHist.index[len(seriesHist)-1])
 
-                qconsolidado = rows[navegaOperacao][10]
-                PMPapel = rows[navegaOperacao][8]
+                qconsolidado = rows[navegaOperacao][10] #retorna qconsolidado da linha atual de processamento
+                PMPapel = rows[navegaOperacao][8]       #retorna PM da linha atual de processamento
 
 
                 #Appenda as 3 séries seriesCotacao, seriesQConsolidado, seriesPM
@@ -486,17 +488,19 @@ def historicoIndiceCarteira(): #todo não pode pegar a data todate do invest.py 
                 #seriesCotacao, seriesQConsolidado, seriesPM
                 if tamSerie > 1:
                     if seriesCotacao.index[tamSerie] == seriesCotacao.index[tamSerie - 1]:#datas duplicadas
-                        if problemaData:
-                            idxtmp = [seriesCotacao.index[tamSerie], seriesCotacao.index[tamSerie + 1]]
-                            problemaData = FALSE
-                            tmpCotacao = pd.Series([seriesCotacao[tamSerie]], index=[idxtmp[0]])
-                            tmpQConsolidado = pd.Series([seriesQConsolidado[tamSerie]], index=[idxtmp[0]])
-                            tmpPM = pd.Series([seriesPM[tamSerie]], index=[idxtmp[0]])
-                        else:
-                            idxtmp = seriesCotacao.index[tamSerie]
-                            tmpCotacao = pd.Series([seriesCotacao[tamSerie]], index=[idxtmp])
-                            tmpQConsolidado = pd.Series([seriesQConsolidado[tamSerie]], index=[idxtmp])
-                            tmpPM = pd.Series([seriesPM[tamSerie]], index=[idxtmp])
+                        # if problemaData:
+                        #     #a = seriesCotacao.index[tamSerie]
+                        #     #b = seriesCotacao.index[tamSerie + 1]
+                        #     idxtmp = [seriesCotacao.index[tamSerie-1], seriesCotacao.index[tamSerie]]
+                        #     problemaData = FALSE
+                        #     tmpCotacao = pd.Series([seriesCotacao[tamSerie]], index=[idxtmp[0]])
+                        #     tmpQConsolidado = pd.Series([seriesQConsolidado[tamSerie]], index=[idxtmp[0]])
+                        #     tmpPM = pd.Series([seriesPM[tamSerie]], index=[idxtmp[0]])
+                        # else:
+                        idxtmp = seriesCotacao.index[tamSerie]
+                        tmpCotacao = pd.Series([seriesCotacao[tamSerie]], index=[idxtmp])
+                        tmpQConsolidado = pd.Series([seriesQConsolidado[tamSerie]], index=[idxtmp])
+                        tmpPM = pd.Series([seriesPM[tamSerie]], index=[idxtmp])
 
                         seriesCotacao = seriesCotacao.drop(idxtmp)#dropa todoas as linhas indexadas pela data duplicada
                         seriesQConsolidado = seriesQConsolidado.drop(idxtmp)
