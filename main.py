@@ -209,11 +209,11 @@ def getSelectedRow(event):
     app.entData.delete(0, END)
     app.entData.insert(END, selected[3].replace('\t', ''))
     app.entValor.delete(0, END)
-    app.entValor.insert(END, selected[4].replace('\t$', '')) #backend view original indice 7
+    app.entValor.insert(END, selected[4].replace('$', '')) #backend view original indice 7
     app.entQuantidade.delete(0, END)
     app.entQuantidade.insert(END, selected[6].replace('\t', ''))#backend view original indice 9
     app.entCustos.delete(0, END)
-    app.entCustos.insert(END, selected[8].replace('\t$', ''))#backend view original indice 11
+    app.entCustos.insert(END, selected[8].replace('$', ''))#backend view original indice 11
     if app.entPapel.get():
         getIndicadoresTecnicos(app.entPapel.get())
         getIndicadoresFundamentalistas(app.entPapel.get())
