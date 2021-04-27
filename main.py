@@ -79,7 +79,6 @@ def preparaDadosExibicaoLista(rows):
         del lista[5:7] #remove data em formato date, o mês e o ano
         del lista[0] #remove index
         del lista[9:13]
-        #todo remover os itens que não vale a pena mostrar depois
 
         for item in lista:
             #item = '\t' + str(item)
@@ -115,43 +114,9 @@ def insert_command():#insere o novo papel atualizando as informações no DB que
                     '')
     updateAll()
 
-#todo update needs to retreive the entry id
-#which is not being done in the list.
-#we cannot retrive the id through a search in the database
-#since the user, updating the entry, is going to change one of the
-#values. Therefore, the search will not find anithing.
-def update_command():#atualiza uma entrada do DB. Atualiza os charts
-    dataCorreta, data, tipo = getDate()
-    if tipo == 'DiaMesAno':
-        #search2Edit(mercado="", papel="", status="", data="", valor="", quantidade="", custos=""):
-        id = core.search2Edit(app.txtMercado.get(),
-                                app.txtPapel.get(),
-                                app.txtStatus.get(),
-                                data,
-                                getdouble(app.txtValorCompra.get().replace(',', '.')),
-                                int(app.txtQuantidade.get()),
-                                getdouble(app.txtCustos.get().replace(',', '.'))
-                                )
-        core.update(app.txtMercado.get(),
-                    app.txtPapel.get(),
-                    app.txtStatus.get(),
-                    data,
-                    data.month,
-                    data.year,
-                    getdouble(app.txtValorCompra.get().replace(',', '.')),
-                    '',
-                    int(app.txtQuantidade.get()),
-                    '',
-                    getdouble(app.txtCustos.get().replace(',', '.')),
-                    '',
-                    '',
-                    '',
-                    '')
-        updateAll()
 
 
-#todo verificar essa logica. Alguns papeis não estão tendo o status consolidado (liquidado) corretamente
-#deveriam ter status true quando uma operação de venda o liquida.
+#deveriam ter status TRUE para consolidado quando é a última operação daquele papel
 def updatePMConsolidado():#atualiza uma entrada do DB. Atualiza os charts
     dataCorreta, data, tipo = getDate()
     operacoesPapel = core.viewAll()
@@ -183,13 +148,12 @@ def updatePMConsolidado():#atualiza uma entrada do DB. Atualiza os charts
 
     operacoesPapel = core.viewAll()
     for operacaoPapel in operacoesPapel:
-        core.updateLiquidado(operacaoPapel[0], "FALSE")
+        core.updateConsolidado(operacaoPapel[0], "FALSE")
 
     papeis = core.searchPapeisDistintos()
     for papel in papeis:
-        operacoesPapel = core.searchPapeisDistintosDataDescendente(papel) #todo talvez o correto seja searchPapeisDistintosDataDescendente
-                                                                            # organizar decrescente pelo id e não pela data
-        core.updateLiquidado(operacoesPapel[0][0], "TRUE")
+        operacoesPapel = core.searchPapeisDistintosDataDescendente(papel)
+        core.updateConsolidado(operacoesPapel[0][0], "TRUE")
 
 
 def updateAll():
@@ -265,7 +229,7 @@ def exportCSV():
     with open(filename, mode='w') as operacoes:
         operacoes_writer = csv.writer(operacoes, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         operacoes_writer.writerow(['Numero da Operação', 'Mercado', 'Papel', 'Status', 'Data', 'Mes', 'Ano', 'Valor',
-                                   'PM', 'Quantidade', 'Quantidade Consolidada', 'Custos', 'Liquidado',
+                                   'PM', 'Quantidade', 'Quantidade Consolidada', 'Custos', 'Consolidado',
                                    'Valor Atual', 'Data de Fechamento', 'Day-Trade'])
         # rows = app.listPapels.get(0, END)
         # for row in rows:
@@ -283,15 +247,6 @@ def importCSV():
     csvFile = openFile()
     csvDict = csv.DictReader(csvFile, delimiter=";")
     for operacao in csvDict:
-        #
-        # # Busca a operação consolidada daquele papel e mercado para atualizá-la para não consolidada
-        # row = core.searchPapelConsolidado(operacao["Mercado"], operacao["Papel"], "TRUE")
-        # if row:
-        #     core.updateLiquidado(row[0][0], "FALSE")
-        #
-        # pm, consolidado = calculaPmConsolidado(operacao["Mercado"], operacao["Papel"], operacao["Status"],
-        #                                        datetime.strptime(operacao["Data"], '%d/%m/%Y'),
-        #                                        float(operacao["Valor"].replace(',', '.')), int(operacao["Quantidade"]))
         core.insert(operacao["Mercado"],
                     operacao["Papel"],
                     operacao["Status"],
@@ -890,7 +845,6 @@ if __name__ == "__main__":
     app.btnViewAll.configure(command=view_command)
     app.btnBuscar.configure(command=search_command)
     app.btnInserir.configure(command=insert_command)#insert_command)
-    #app.btnUpdate.configure(command=update_command)
     app.btnDel.configure(command=del_command)
     app.btnClose.configure(command=app.window.destroy)
     app.btnCalculaIRPFMensal.configure(command=calculaIRPF)
