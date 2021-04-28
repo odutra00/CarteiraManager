@@ -22,7 +22,7 @@ class Gui:
     #Criando a janela...
     window          = Tk()
     window.wm_title("Cadastro de Ações")
-    window.geometry('1920x990')
+    window.geometry('1780x990')
     #mono_font = tkfontchooser.Font(family="Arial", size=18)
     #mono_font_IRPF = tkfontchooser.Font(family="Arial", size=16)
     #mono_font_Indicadores = tkfontchooser.Font(family="Arial", size=15)
@@ -182,7 +182,7 @@ class Gui:
 
 
     # Frame to Exbit both IRPF Day-Trade and regular for the chosen month
-    txtLabelFrameBoth = "IRPF Mensal"
+    txtLabelFrameBoth = "IRPF"
     frameIRPFBoth = LabelFrame(window, text=txtLabelFrameBoth, padx=5, pady=10)  # ) #, font=mono_font_IRPF)
     btnCalculaIRPFMensal = Button(frameIRPFBoth,
                                   text="Calcula IRPF Mensal")  # , font=mono_font)
@@ -255,13 +255,13 @@ class Gui:
                                                 "o desse programa.")
 
     ############################### Arranjo dos WIdgets###########################################
-    labelVendas.grid(row=1, column=0, sticky='nesw')
-    labelLucroBruto.grid(row=2, column=0, sticky='nesw')
-    labelDespesasMensais.grid(row=3, column=0, sticky='nesw')
-    labelLucroLiquido.grid(row=4, column=0, sticky='nesw')
-    labelLucroLiquidoPercentual.grid(row=5, column=0, sticky='nesw')
-    labelIRPFRetido.grid(row=6, column=0, sticky='nesw')
-    labelImpostosDevidos.grid(row=7, column=0, sticky='nesw')
+    labelVendas.grid(row=1, column=0, sticky='e')
+    labelLucroBruto.grid(row=2, column=0, sticky='e')
+    labelDespesasMensais.grid(row=3, column=0, sticky='e')
+    labelLucroLiquido.grid(row=4, column=0, sticky='e')
+    labelLucroLiquidoPercentual.grid(row=5, column=0, sticky='e')
+    labelIRPFRetido.grid(row=6, column=0, sticky='e')
+    labelImpostosDevidos.grid(row=7, column=0, sticky='e')
     entVendas.grid(row=1, column=1, sticky='nesw')
     entLucroBruto.grid(row=2, column=1, sticky='nesw')
     entDespesasMensais.grid(row=3, column=1, sticky='nesw')
@@ -270,7 +270,7 @@ class Gui:
     entIRPFRetido.grid(row=6, column=1, sticky='nesw')
     entImpostosDevidos.grid(row=7, column=1, sticky='nesw')
 
-    # Os frames abaixo estão linkados no frameIRPF
+    # Os frames abaixo estão linkados no frameIRPFBoth
     frameIRPF.grid(row=0, column=0, sticky='nesw')
     frameIRPF.columnconfigure(0, weight=1)
     ##############################################################################################
@@ -331,13 +331,13 @@ class Gui:
                                  width=12)  # , font=mono_font_IRPF)
 
     ############################### Arranjo dos WIdgets###########################################
-    labelVendasDT.grid(row=1, column=0, sticky='nesw')
-    labelLucroBrutoDT.grid(row=2, column=0, sticky='nesw')
-    labelDespesasMensaisDT.grid(row=3, column=0, sticky='nesw')
-    labelLucroLiquidoDT.grid(row=4, column=0, sticky='nesw')
-    labelLucroLiquidoPercentualDT.grid(row=5, column=0, sticky='nesw')
-    labelIRPFRetidoDT.grid(row=6, column=0, sticky='nesw')
-    labelImpostosDevidosDT.grid(row=7, column=0, sticky='nesw')
+    labelVendasDT.grid(row=1, column=0, sticky='e')
+    labelLucroBrutoDT.grid(row=2, column=0, sticky='e')
+    labelDespesasMensaisDT.grid(row=3, column=0, sticky='e')
+    labelLucroLiquidoDT.grid(row=4, column=0, sticky='e')
+    labelLucroLiquidoPercentualDT.grid(row=5, column=0, sticky='e')
+    labelIRPFRetidoDT.grid(row=6, column=0, sticky='e')
+    labelImpostosDevidosDT.grid(row=7, column=0, sticky='e')
     entVendasDT.grid(row=1, column=1, sticky='nesw')
     entLucroBrutoDT.grid(row=2, column=1, sticky='nesw')
     entDespesasMensaisDT.grid(row=3, column=1, sticky='nesw')
@@ -345,7 +345,7 @@ class Gui:
     entLucroLiquidoPercentualDT.grid(row=5, column=1, sticky='nesw')
     entIRPFRetidoDT.grid(row=6, column=1, sticky='nesw')
     entImpostosDevidosDT.grid(row=7, column=1, sticky='nesw')
-    #Os frames abaixo estão linkados no frameIRPFDT
+    #Os frames abaixo estão linkados no frameIRPFBoth
     frameIRPFDayTrade.grid(row=0, column=1, sticky='nesw')
     frameIRPFDayTrade.columnconfigure(0, weight=1)
     ##############################################################################################
@@ -354,6 +354,82 @@ class Gui:
 
 
 
+
+
+    ##############################################################################################
+    #################################Frame IRPF Anual - frameIRPFAnual############################
+    ##############################################################################################
+    txtMercadoIRPFAnual = StringVar()
+    txtVendasAnual = StringVar()
+    txtLucroBrutoAnual = StringVar()
+    txtLucroLiquidoAnual = StringVar()
+    txtLucroLiquidoPercentualAnual = StringVar()
+    txtImpostosDevidosAnual = StringVar()
+    txtIRPFRetidoFonteAnual = StringVar()
+    txtDespesasMensaisAnual = StringVar()
+
+    # Frame to Exbit due IRPF Anual for the chosen year
+    txtLabelFrameIRPFAnual = "IRPF Anual"
+    frameIRPFAnual = LabelFrame(frameIRPFBoth, text=txtLabelFrameIRPFAnual)  # , padx=20, pady=20)
+
+    labelMercadoAnual = Label(frameIRPFAnual, text="Mercado")  # , font=mono_font_IRPF)
+    labelVendasAnual = Label(frameIRPFAnual, text="Vendas")  # , font=mono_font_IRPF)
+    labelLucroBrutoAnual = Label(frameIRPFAnual, text="L. Bruto")  # , font=mono_font_IRPF)
+    labelDespesasMensaisAnual = Label(frameIRPFAnual, text="Despesas")  # , font=mono_font_IRPF)
+    labelLucroLiquidoAnual = Label(frameIRPFAnual, text="L. Líquido")  # , font=mono_font_IRPF)
+    labelLucroLiquidoPercentualAnual = Label(frameIRPFAnual, text="L. Líquido %")  # , font=mono_font_IRPF)
+    labelIRPFRetidoAnual = Label(frameIRPFAnual, text="IRPF Retido")  # , font=mono_font_IRPF)
+    labelImpostosDevidosAnual = Label(frameIRPFAnual, text="IRPF Devido")  # , font=mono_font_IRPF)
+
+    entMercadoIRPFAnual= Entry(frameIRPFAnual, textvariable=txtMercadoIRPFAnual, state='disabled',
+                             width=12)  # , font=mono_font_IRPF)
+    entVendasAnual = Entry(frameIRPFAnual, textvariable=txtVendasAnual, state='disabled',
+                        width=12)  # , font=mono_font_IRPF)
+    entLucroBrutoAnual = Entry(frameIRPFAnual, textvariable=txtLucroBrutoAnual, state='disabled',
+                            width=12)  # , font=mono_font_IRPF)
+    entDespesasMensaisAnual = Entry(frameIRPFAnual, textvariable=txtDespesasMensaisAnual, state='disabled',
+                                 width=12)  # , font=mono_font_IRPF)
+    entLucroLiquidoAnual = Entry(frameIRPFAnual, textvariable=txtLucroLiquidoAnual, state='disabled',
+                              width=12)  # , font=mono_font_IRPF)
+    entLucroLiquidoPercentualAnual = Entry(frameIRPFAnual, textvariable=txtLucroLiquidoPercentualAnual, state='disabled',
+                                        width=12)  # , font=mono_font_IRPF)
+    entIRPFRetidoAnual = Entry(frameIRPFAnual, textvariable=txtIRPFRetidoFonteAnual, state='disabled',
+                            width=12)  # , font=mono_font_IRPF)
+    entImpostosDevidosAnual = Entry(frameIRPFAnual, textvariable=txtImpostosDevidosAnual, state='disabled',
+                                 width=12)  # , font=mono_font_IRPF)
+
+    ToolTip.CreateToolTip(labelLucroLiquidoAnual, text="Lucro Bruto - Despesas - Impostos. \n"
+                                                    "No programa de IRPF, lançar este valor em\n"
+                                                    "Rendimentos Isentos e Não Tributáveis, opção 20.\n"
+                                                       "Desconsidera os lucros obtidos em meses em que\n"
+                                                       "se pagou imposto de renda (já lançados nos meses \n"
+                                                       "específicos em que se recolheu IR)")
+
+
+    btnCalculaIRPFAnual = Button(frameIRPFBoth,
+                                  text="Calcula IRPF Anual")  # , font=mono_font)
+    btnCalculaIRPFAnual.grid(row=3, column=0, columnspan=2, sticky='nesw')
+    ############################### Arranjo dos WIdgets###########################################
+    labelVendasAnual.grid(row=1, column=0, sticky='e')
+    labelLucroBrutoAnual.grid(row=2, column=0, sticky='e')
+    labelDespesasMensaisAnual.grid(row=3, column=0, sticky='e')
+    labelLucroLiquidoAnual.grid(row=4, column=0, sticky='e')
+    labelLucroLiquidoPercentualAnual.grid(row=5, column=0, sticky='e')
+    labelIRPFRetidoAnual.grid(row=6, column=0, sticky='e')
+    labelImpostosDevidosAnual.grid(row=7, column=0, sticky='e')
+    entVendasAnual.grid(row=1, column=1, sticky='nesw')
+    entLucroBrutoAnual.grid(row=2, column=1, sticky='nesw')
+    entDespesasMensaisAnual.grid(row=3, column=1, sticky='nesw')
+    entLucroLiquidoAnual.grid(row=4, column=1, sticky='nesw')
+    entLucroLiquidoPercentualAnual.grid(row=5, column=1, sticky='nesw')
+    entIRPFRetidoAnual.grid(row=6, column=1, sticky='nesw')
+    entImpostosDevidosAnual.grid(row=7, column=1, sticky='nesw')
+    # Os frames abaixo estão linkados no frameIRPFBoth
+    frameIRPFAnual.grid(row=2, column=0, columnspan=2, sticky='nesw')
+    frameIRPFAnual.columnconfigure(0, weight=1)
+    ##############################################################################################
+    ##############################Fim Frame IRPF Anual - frameIRPFAnual###########################
+    ##############################################################################################
 
 
 
@@ -451,29 +527,26 @@ class Gui:
 
 
 
+
+    frameIndicadores = LabelFrame(window, text="Indicadores", padx=5, pady=5)  # , font=mono_font_Indicadores, )
     ##############################################################################################
     #####################Frame Indicadores Tecnicos - frameIndTec#################################
     ##############################################################################################
-    frameIndTec = LabelFrame(window, text="Indicadores Técnicos", padx=5, pady=5)  # , font=mono_font_Indicadores, )
-    textAreaIndicators = Text(frameIndTec, width=50, height=12)  # , font=mono_font_Indicadores)
+    #frameIndTec = LabelFrame(frameIndicadores, text="Indicadores Técnicos", padx=5, pady=5)  # , font=mono_font_Indicadores, )
+    textAreaIndicators = Text(frameIndicadores, width=50, height=12)  # , font=mono_font_Indicadores)
     ############################### Arranjo dos WIdgets###########################################
-    textAreaIndicators.grid(row=0, column=0, rowspan=9, columnspan=1, stick=W)
+    textAreaIndicators.grid(row=0, column=0, stick='nw')#, rowspan=9, columnspan=1, stick=W)
     ##############################################################################################
     ####################Fim Frame Indicadores Tecnicos - frameIndTec##############################
     ##############################################################################################
 
-
-
-
-
-
     ##############################################################################################
     #####################Frame Indicadores Tecnicos - frameIndFund################################
     ##############################################################################################
-    frameIndFund = LabelFrame(window, text="Informações", padx=5, pady=5)  # , font=mono_font_Indicadores)
-    textAreaIndicatorsFund = Text(frameIndFund, width=50, height=10)  # , font=mono_font_Indicadores)
+    #frameIndFund = LabelFrame(frameIndicadores, text="Fundamentos", padx=5, pady=5)  # , font=mono_font_Indicadores)
+    textAreaIndicatorsFund = Text(frameIndicadores, width=50, height=10)  # , font=mono_font_Indicadores)
     ############################### Arranjo dos WIdgets###########################################
-    textAreaIndicatorsFund.grid(row=0, column=0, rowspan=6, columnspan=1, stick=W)
+    textAreaIndicatorsFund.grid(row=1, column=0, stick='sw')#, rowspan=6, columnspan=1, stick=W)
     ##############################################################################################
     ####################Fim Frame Indicadores Tecnicos - frameIndFund#############################
     ##############################################################################################
@@ -510,9 +583,10 @@ class Gui:
     ##############################################################################################
     frameButoes.grid(row=0, column=0) #, columnspan=2, rowspan=1)  # , sticky='nesw')
     frameList.grid(row=0, column=1) #, rowspan=2, columnspan=2, sticky=E)#, columnspan=1)
-    frameIndTec.grid(row=0, column=2, stick=NW)
-    frameIndFund.grid(row=1, column=2, stick=NW)
-    frameIRPFBoth.grid(row=1, column=2, sticky=SW)
+    #frameIndTec.grid(row=0, column=2, stick=NW)
+    #frameIndFund.grid(row=0, column=2, rowspan=2, stick='ne')
+    frameIndicadores.grid(row=0, column=2, stick='nesw')
+    frameIRPFBoth.grid(row=1, column=2)#, sticky="nesw")
     framePie.grid(row=1, column=0)  # , columnspan=3, stick=SW)
     frameDesempenho.grid(row=1, column=1)  # , columnspan=6, stick=SW)
 

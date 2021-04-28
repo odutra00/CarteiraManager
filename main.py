@@ -488,15 +488,6 @@ def historicoIndiceCarteira():
                 #seriesCotacao, seriesQConsolidado, seriesPM
                 if tamSerie > 1:
                     if seriesCotacao.index[tamSerie] == seriesCotacao.index[tamSerie - 1]:#datas duplicadas
-                        # if problemaData:
-                        #     #a = seriesCotacao.index[tamSerie]
-                        #     #b = seriesCotacao.index[tamSerie + 1]
-                        #     idxtmp = [seriesCotacao.index[tamSerie-1], seriesCotacao.index[tamSerie]]
-                        #     problemaData = FALSE
-                        #     tmpCotacao = pd.Series([seriesCotacao[tamSerie]], index=[idxtmp[0]])
-                        #     tmpQConsolidado = pd.Series([seriesQConsolidado[tamSerie]], index=[idxtmp[0]])
-                        #     tmpPM = pd.Series([seriesPM[tamSerie]], index=[idxtmp[0]])
-                        # else:
                         idxtmp = seriesCotacao.index[tamSerie]
                         tmpCotacao = pd.Series([seriesCotacao[tamSerie]], index=[idxtmp])
                         tmpQConsolidado = pd.Series([seriesQConsolidado[tamSerie]], index=[idxtmp])
