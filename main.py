@@ -439,9 +439,9 @@ def historicoIndiceCarteira():
     for itemCarteira in itensCarteira:
         rows = core.searchPapel(itensCarteira[navegaPapel])#todas as operações no DB daquele papel
         navegaOperacao = 0
-        seriesQConsolidado = pd.Series()
-        seriesPM = pd.Series()
-        seriesCotacao = pd.Series()
+        seriesQConsolidado = pd.Series(dtype='float64')
+        seriesPM = pd.Series(dtype='float64')
+        seriesCotacao = pd.Series(dtype='float64')
         while navegaOperacao < len(rows):#varre até a penúltima operação daquele papel especificado
             iniciodate = datetime.strptime(rows[navegaOperacao][4], "%Y-%m-%d %H:%M:%S").strftime("%d/%m/%Y")
             if len(rows) == 1:#há apenas uma entrada. fimDate é a data atual do dia
@@ -507,9 +507,9 @@ def historicoIndiceCarteira():
 
             except RuntimeError:
                 print("Não achou o papel")
-                seriesCotacao = pd.Series()
-                seriesQConsolidado = pd.Series()
-                seriesPM = pd.Series()
+                seriesCotacao = pd.Series(dtype='float64')
+                seriesQConsolidado = pd.Series(dtype='float64')
+                seriesPM = pd.Series(dtype='float64')
 
             navegaOperacao = navegaOperacao + 1
 
@@ -545,6 +545,7 @@ def historicoIndiceCarteira():
         valorCotacaoPapel = cotacaoPapel.values * qConsolidadoPapel.values
         valorPMPapel = PM.values * qConsolidadoPapel.values
         papelNormalizado = valorCotacaoPapel / valorPMPapel
+
         carteira[itensCarteira[cont]] = pd.Series(list(papelNormalizado), index=carteiraDetalhada.index)
 
         #df['column_name'] = pd.Series(arr)
@@ -724,9 +725,9 @@ def getDate():
 
 def getCotacaoPapeisCarteira():
     rows = core.searchPosicaoConsolidada("TRUE", 0)
-    posicao = pd.DataFrame()
-    serieValue = pd.Series()
-    serieIndex = pd.Series()
+    posicao = pd.Series(dtype='float64')
+    serieValue = pd.Series(dtype='float64')
+    serieIndex = pd.Series(dtype='float64')
     for row in rows:
         try:
             cotacao = inv.get_stock_information(    str(row[2]),

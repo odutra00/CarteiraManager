@@ -450,7 +450,7 @@ class Gui:
     ax1 = fig.add_subplot(111)
     ax1.set_title("Posição Consolidada")
     ax1.axis("equal")
-    pie = ax1.pie(sizes, labels=labels, startangle=0)
+    pie = ax1.pie(sizes, labels=labels, startangle=0)#, normalize=TRUE)
     canvasCarteiraPie = FigureCanvasTkAgg(fig, master=framePie)
     canvasCarteiraPie.draw()
     # creating the Matplotlib toolbar
