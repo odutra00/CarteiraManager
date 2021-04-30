@@ -584,15 +584,46 @@ def showAbout():
     messagebox.showinfo("CarteiraManager", "Versão 1.0\n Author: Odilon de Oliveira Dutra")
 
 
-def calculaIRPF():
-    calculaIRPFRegular()
-    calculaIRPFDayTrade()
+def populaIRPFs():
+    populaIRPFRegular(calculaIRPFRegularMes(*getDate()))
+    populaIRPFDT(calculaIRPFDayTrade(*getDate()))
+    populaIRPFAnual(calculaIRPFAnual(*getDate()))
 
-def calculaIRPFRegular():
+def populaIRPFRegular(vetorDadosIRPF):
+    app.txtVendas.set("R$ {:.2f}".format(round(vetorDadosIRPF[0], 2)))
+    app.txtIRPFRetidoFonte.set("R$ {:.2f}".format(round(vetorDadosIRPF[1], 2)))
+    app.txtDespesasMensais.set("R$ {:.2f}".format(round(vetorDadosIRPF[2], 2)))
+    app.txtLucroBruto.set("R$ {:.2f}".format(round(vetorDadosIRPF[3], 2)))
+    app.txtImpostosDevidos.set("R$ {:.2f}".format(round(vetorDadosIRPF[4], 2)))
+    app.txtLucroLiquido.set("R$ {:.2f}".format(round(vetorDadosIRPF[5], 2)))
+    app.txtLucroLiquidoPercentual.set("{:.2f} %".format(round(vetorDadosIRPF[6], 2)))
+
+def populaIRPFDT(vetorDadosIRPFDT):
+    app.txtVendasDT.set("R$ {:.2f}".format(round(vetorDadosIRPFDT[0], 2)))
+    app.txtIRPFRetidoFonteDT.set("R$ {:.2f}".format(round(vetorDadosIRPFDT[1], 2)))
+    app.txtDespesasMensaisDT.set("R$ {:.2f}".format(round(vetorDadosIRPFDT[2], 2)))
+    app.txtLucroBrutoDT.set("R$ {:.2f}".format(round(vetorDadosIRPFDT[3], 2)))
+    app.txtImpostosDevidosDT.set("R$ {:.2f}".format(round(vetorDadosIRPFDT[4], 2)))
+    app.txtLucroLiquidoDT.set("R$ {:.2f}".format(round(vetorDadosIRPFDT[5], 2)))
+    app.txtLucroLiquidoPercentualDT.set("{:.2f} %".format(round(vetorDadosIRPFDT[6], 2)))
+
+def populaIRPFAnual(vetorDadosIRPFAnual):
+    app.txtVendasAnual.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[0], 2)))
+    app.txtIRPFRetidoFonteAnual.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[1], 2)))
+    app.txtDespesasMensaisAnual.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[2], 2)))
+    app.txtLucroBrutoAnual.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[3], 2)))
+    app.txtImpostosDevidosAnual.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[4], 2)))
+    app.txtLucroLiquidoAnual.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[5], 2)))
+    #app.txtLucroLiquidoPercentualAnual.set("{:.2f} %".format(round(vetorDadosIRPFAnual[6], 2)))
+    app.txtLucroLiquidoVendasMaior20k.set("R$ {:.2f}".format(round(vetorDadosIRPFAnual[7], 2)))
+
+
+#computa dados IRPF Regular Mensal
+def calculaIRPFRegularMes(dataCorreta, data, tipo):
     aliquotaRegularRetidoFonte = 0.00005
     aliquotaRegular = 0.15
     limiteVendas = 20000
-    dataCorreta, data, tipo = getDate()
+
     if tipo == 'DiaMesAno' or tipo == 'MesAno':
         month = data.month
         year = data.year
@@ -608,41 +639,43 @@ def calculaIRPFRegular():
             totalVendasMenosPMMes = totalVendasMenosPMMes + (row[9] * (row[7] - row[8]))
             totalvendasMes = totalvendasMes + (row[9] * row[7])
             totalGanho = totalGanho + (row[9] * row[8])
-        app.txtVendas.set("R$ {:.2f}".format(round(totalvendasMes, 2)))
 
         irpfRetidoFonte = aliquotaRegularRetidoFonte * totalvendasMes
         if irpfRetidoFonte < 1: #o IRPF retido na fonte é cobrado em cima da venda total apenas se
             irpfRetidoFonte = 0 #sua alíquota de 0,005% * totalVendas superar R$1,00
-        app.txtIRPFRetidoFonte.set("R$ {:.2f}".format(round(irpfRetidoFonte, 2)))
 
         for row in operacoesMesRegulares:
             despesasMensais = despesasMensais + row[11]
-        app.txtDespesasMensais.set("R$ {:.2f}".format(round(despesasMensais, 2)))
 
         #lucroBrutoMensal = totalVendasMenosPMMes - despesasMensais
         lucroBrutoMensal = totalVendasMenosPMMes
-        app.txtLucroBruto.set("R$ {:.2f}".format(round(lucroBrutoMensal, 2)))
 
         if totalvendasMes < limiteVendas:
             impostoDevido = 0
         else:
             #impostoDevido = 0.15 * lucroBrutoMensal - irpfRetidoFonte
             impostoDevido = aliquotaRegular * (lucroBrutoMensal - despesasMensais) - irpfRetidoFonte
-        app.txtImpostosDevidos.set("R$ {:.2f}".format(round(impostoDevido, 2)))
 
         #lucroLiquidoMensal = lucroBrutoMensal - impostoDevido
         lucroLiquidoMensal = lucroBrutoMensal - despesasMensais - impostoDevido
-        app.txtLucroLiquido.set("R$ {:.2f}".format(round(lucroLiquidoMensal, 2)))
         if totalGanho != 0:
-            app.txtLucroLiquidoPercentual.set("{:.2f} %".format(round(100 * lucroLiquidoMensal / totalGanho, 2)))
+            lucroLiquidoPercentual = round(100 * lucroLiquidoMensal / totalGanho, 2)
         else:
-            app.txtLucroLiquidoPercentual.set("{:.2f} %".format(0))
+            lucroLiquidoPercentual = 0
+
+    return [totalvendasMes,
+            irpfRetidoFonte,
+            despesasMensais,
+            lucroBrutoMensal,
+            impostoDevido,
+            lucroLiquidoMensal,
+            lucroLiquidoPercentual]
 
 
-def calculaIRPFDayTrade():
+#computa dados IRPF DT Mensal
+def calculaIRPFDayTrade(dataCorreta, data, tipo):
     aliquotaDayTradeRetidoFonte = 0.01
     aliquotaDayTrade = 0.20
-    dataCorreta, data, tipo = getDate()
     if tipo == 'DiaMesAno' or tipo == 'MesAno':
         month = data.month
         year = data.year
@@ -658,35 +691,97 @@ def calculaIRPFDayTrade():
             totalVendasMenosPMMes = totalVendasMenosPMMes + (row[9] * (row[7] - row[8]))
             totalvendasMes = totalvendasMes + (row[9] * row[7])
             totalGanho = totalGanho + (row[9] * row[8])
-        app.txtVendasDT.set("R$ {:.2f}".format(round(totalvendasMes, 2)))
 
         irpfRetidoFonte = aliquotaDayTradeRetidoFonte * totalvendasMes
         if irpfRetidoFonte < 1:  # o IRPF retido na fonte é cobrado em cima da venda total apenas se
             irpfRetidoFonte = 0  # sua alíquota de 0,005% * totalVendas superar R$1,00
-        app.txtIRPFRetidoFonteDT.set("R$ {:.2f}".format(round(irpfRetidoFonte, 2)))
 
         for row in operacoesMesDayTrade:
             despesasMensais = despesasMensais + row[11]
-        app.txtDespesasMensaisDT.set("R$ {:.2f}".format(round(despesasMensais, 2)))
 
         # lucroBrutoMensal = totalVendasMenosPMMes - despesasMensais
         lucroBrutoMensal = totalVendasMenosPMMes
-        app.txtLucroBrutoDT.set("R$ {:.2f}".format(round(lucroBrutoMensal, 2)))
 
         if lucroBrutoMensal < 0:
             impostoDevido = 0
         else:
             # impostoDevido = 0.15 * lucroBrutoMensal - irpfRetidoFonte
             impostoDevido = aliquotaDayTrade * (lucroBrutoMensal - despesasMensais) - irpfRetidoFonte
-        app.txtImpostosDevidosDT.set("R$ {:.2f}".format(round(impostoDevido, 2)))
 
         # lucroLiquidoMensal = lucroBrutoMensal - impostoDevido
         lucroLiquidoMensal = lucroBrutoMensal - despesasMensais - impostoDevido
-        app.txtLucroLiquidoDT.set("R$ {:.2f}".format(round(lucroLiquidoMensal, 2)))
+        #app.txtLucroLiquidoDT.set("R$ {:.2f}".format(round(lucroLiquidoMensal, 2)))
         if totalGanho != 0:
-            app.txtLucroLiquidoPercentualDT.set("{:.2f} %".format(round(100 * lucroLiquidoMensal / totalGanho, 2)))
+            lucroLiquidoPercentual = round(100 * lucroLiquidoMensal / totalGanho, 2)
         else:
-            app.txtLucroLiquidoPercentualDT.set("{:.2f} %".format(0))
+            lucroLiquidoPercentual = 0
+
+        return [totalvendasMes,
+                irpfRetidoFonte,
+                despesasMensais,
+                lucroBrutoMensal,
+                impostoDevido,
+                lucroLiquidoMensal,
+                lucroLiquidoPercentual]
+
+#computa as informacoes de IR, para todos os meses acumulados até o mês
+#informado. Se colocado mês de Dezembro, computa as informações daquele ano.
+def calculaIRPFAnual(dataCorreta, data, tipo):
+    if tipo == 'DiaMesAno' or tipo == 'MesAno':
+        month = data.month
+        year = data.year
+        mes = 1
+        tipo = 'MesAno'
+        dadosIRPFRegular = []
+        dadosIRPFDT = []
+        dadosIRPFRegular = [0 for i in range(7)]
+        dadosIRPFDT = [0 for i in range(7)]
+        dadosIRPFAnual = [0 for i in range(8)]
+        app.txtLabelFrameIRPFAnual.set("IRPF Acumulado até "+ str(month) + "/" + str(year))
+        app.frameIRPFAnual.configure(text=app.txtLabelFrameIRPFAnual.get())
+
+
+        for mes in range(1, month+1):
+            a = str(mes)+"/"+str(year)
+            dataAtual = datetime.strptime(str(mes)+"/"+str(year), '%m/%Y')
+
+            tmp = calculaIRPFRegularMes(dataCorreta, dataAtual, tipo)
+            if tmp[4] == 0: #não houve IRPF a se recolher no mes
+                #a = np.append(tmp, [0])
+                #b = np.append(dadosIRPFAnual, 0)
+                dadosIRPFAnual = np.add(dadosIRPFAnual, np.append(tmp, [0]))
+            else: #houve recolhimento de IRPF naquele mês
+                dadosIRPFAnual = [dadosIRPFAnual[0] + tmp[0], #totalvendasAno
+                                  dadosIRPFAnual[1] + tmp[1], #irpfRetidoFonteAno
+                                  dadosIRPFAnual[2] + tmp[2], #despesasAnuais
+                                  dadosIRPFAnual[3] + tmp[3], #lucroBrutoAnual
+                                  dadosIRPFAnual[4] + tmp[4], #impostoDevidoAnual
+                                  dadosIRPFAnual[5] + 0, #lucroLiquidoAnual
+                                  dadosIRPFAnual[6] + tmp[6], #lucroLiquidoPercentualAnual
+                                  dadosIRPFAnual[7] + tmp[5], #lucroLiquidoVendasMaior20k
+                                ]
+
+            tmpDT = calculaIRPFDayTrade(dataCorreta, dataAtual, tipo)
+            dadosIRPFAnual = [dadosIRPFAnual[0] + tmpDT[0],  # totalvendasAno
+                              dadosIRPFAnual[1] + tmpDT[1],  # irpfRetidoFonteAno
+                              dadosIRPFAnual[2] + tmpDT[2],  # despesasAnuais
+                              dadosIRPFAnual[3] + tmpDT[3],  # lucroBrutoAnual
+                              dadosIRPFAnual[4] + tmpDT[4],  # impostoDevidoAnual
+                              dadosIRPFAnual[5] + 0,         # lucroLiquidoAnual
+                              dadosIRPFAnual[6] + tmpDT[6],  # lucroLiquidoPercentualAnual
+                              dadosIRPFAnual[7] + tmpDT[5],  # lucroLiquidoVendasMaior20k
+                              ]
+                    #dadosIRPFAnual = dadosIRPFRegular + dadosIRPFDT
+        return dadosIRPFAnual
+        # return [totalvendasAno,
+        #         irpfRetidoFonteAno,
+        #         despesasAnuais,
+        #         lucroBrutoAnual,
+        #         impostoDevidoAnual,
+        #         lucroLiquidoAnual,
+        #         lucroLiquidoPercentualAnual,
+        #         lucroLiquidoVendasMaior20k]
+
 
 def getDate():
     #if app.txtData.get():
@@ -843,8 +938,9 @@ if __name__ == "__main__":
     app.btnInserir.configure(command=insert_command)#insert_command)
     app.btnDel.configure(command=del_command)
     app.btnClose.configure(command=app.window.destroy)
-    app.btnCalculaIRPFMensal.configure(command=calculaIRPF)
+    #app.btnCalculaIRPFMensal.configure(command=populaIRPFs)
     #app.btnCalculaIRPFMensalDetalhes.configure(command=detalhaIRPF)
+    app.btnCalculaIRPFAnual.configure(command=populaIRPFs)
 
     app.btnUpdatePie.configure(command=iniciaThreadPie)
     app.btnUpdateDesempenho.configure(command=iniciaThreadDesempenho)

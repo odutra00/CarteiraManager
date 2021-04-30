@@ -184,9 +184,9 @@ class Gui:
     # Frame to Exbit both IRPF Day-Trade and regular for the chosen month
     txtLabelFrameBoth = "IRPF"
     frameIRPFBoth = LabelFrame(window, text=txtLabelFrameBoth, padx=5, pady=10)  # ) #, font=mono_font_IRPF)
-    btnCalculaIRPFMensal = Button(frameIRPFBoth,
-                                  text="Calcula IRPF Mensal")  # , font=mono_font)
-    btnCalculaIRPFMensal.grid(row=1, column=0, columnspan=2, sticky='nesw')
+    #btnCalculaIRPFMensal = Button(frameIRPFBoth,
+    #                              text="Calcula IRPF Mensal")  # , font=mono_font)
+    #btnCalculaIRPFMensal.grid(row=1, column=0, columnspan=2, sticky='nesw')
     ##############################################################################################
     #################################Frame IRPF Regular - frameIRPF#################################
     ##############################################################################################
@@ -243,9 +243,7 @@ class Gui:
                                                   "No programa de IRPF, caso as vendas do \n"
                                                   "mês ultrapassarem R$20.000,00, lancar em renda\n"
                                                   "variável o valor do Lucro Bruto - Desepsas.\n"
-                                                  "Caso contrário, lançar o somatório desse mesmo valor, \n"
-                                                  "para todos os meses em que Vendas < R$20.000,00, em\n"
-                                                  "Rendimentos Isentos e Não Tributáveis, classe 20")
+                                                  )
 
     ToolTip.CreateToolTip(labelIRPFRetido, text="Imposto retido na fonte pela corretora.\n"
                                                 "Lançar esse valor no programa de IRPF, \n"
@@ -363,23 +361,26 @@ class Gui:
     txtVendasAnual = StringVar()
     txtLucroBrutoAnual = StringVar()
     txtLucroLiquidoAnual = StringVar()
-    txtLucroLiquidoPercentualAnual = StringVar()
+    #txtLucroLiquidoPercentualAnual = StringVar()
+    txtLucroLiquidoVendasMaior20k = StringVar()
     txtImpostosDevidosAnual = StringVar()
     txtIRPFRetidoFonteAnual = StringVar()
     txtDespesasMensaisAnual = StringVar()
 
     # Frame to Exbit due IRPF Anual for the chosen year
-    txtLabelFrameIRPFAnual = "IRPF Anual"
-    frameIRPFAnual = LabelFrame(frameIRPFBoth, text=txtLabelFrameIRPFAnual)  # , padx=20, pady=20)
+    txtLabelFrameIRPFAnual = StringVar()
+    txtLabelFrameIRPFAnual.set("IRPF Acumulado Anual")
+    frameIRPFAnual = LabelFrame(frameIRPFBoth, text=txtLabelFrameIRPFAnual.get())
 
     labelMercadoAnual = Label(frameIRPFAnual, text="Mercado")  # , font=mono_font_IRPF)
     labelVendasAnual = Label(frameIRPFAnual, text="Vendas")  # , font=mono_font_IRPF)
     labelLucroBrutoAnual = Label(frameIRPFAnual, text="L. Bruto")  # , font=mono_font_IRPF)
     labelDespesasMensaisAnual = Label(frameIRPFAnual, text="Despesas")  # , font=mono_font_IRPF)
-    labelLucroLiquidoAnual = Label(frameIRPFAnual, text="L. Líquido")  # , font=mono_font_IRPF)
-    labelLucroLiquidoPercentualAnual = Label(frameIRPFAnual, text="L. Líquido %")  # , font=mono_font_IRPF)
+    labelLucroLiquidoAnual = Label(frameIRPFAnual, text="L. Líquido Vendas Mensais < 20k")  # , font=mono_font_IRPF)
+    #labelLucroLiquidoPercentualAnual = Label(frameIRPFAnual, text="L. Líquido %")  # , font=mono_font_IRPF)
+    labelLucroLiquidoVendasMaior20k = Label(frameIRPFAnual, text="L. Líquido Vendas Mensais >= 20k")  # , font=mono_font_IRPF)
     labelIRPFRetidoAnual = Label(frameIRPFAnual, text="IRPF Retido")  # , font=mono_font_IRPF)
-    labelImpostosDevidosAnual = Label(frameIRPFAnual, text="IRPF Devido")  # , font=mono_font_IRPF)
+    labelImpostosDevidosAnual = Label(frameIRPFAnual, text="IRPF Pago")  # , font=mono_font_IRPF)
 
     entMercadoIRPFAnual= Entry(frameIRPFAnual, textvariable=txtMercadoIRPFAnual, state='disabled',
                              width=12)  # , font=mono_font_IRPF)
@@ -391,41 +392,49 @@ class Gui:
                                  width=12)  # , font=mono_font_IRPF)
     entLucroLiquidoAnual = Entry(frameIRPFAnual, textvariable=txtLucroLiquidoAnual, state='disabled',
                               width=12)  # , font=mono_font_IRPF)
-    entLucroLiquidoPercentualAnual = Entry(frameIRPFAnual, textvariable=txtLucroLiquidoPercentualAnual, state='disabled',
-                                        width=12)  # , font=mono_font_IRPF)
+    #entLucroLiquidoPercentualAnual = Entry(frameIRPFAnual, textvariable=txtLucroLiquidoPercentualAnual, state='disabled',
+    #                                    width=12)  # , font=mono_font_IRPF)
+    entLucroLiquidoVendasMaior20k = Entry(frameIRPFAnual, textvariable=txtLucroLiquidoVendasMaior20k,
+                                           state='disabled', width=12)
     entIRPFRetidoAnual = Entry(frameIRPFAnual, textvariable=txtIRPFRetidoFonteAnual, state='disabled',
                             width=12)  # , font=mono_font_IRPF)
     entImpostosDevidosAnual = Entry(frameIRPFAnual, textvariable=txtImpostosDevidosAnual, state='disabled',
                                  width=12)  # , font=mono_font_IRPF)
 
-    ToolTip.CreateToolTip(labelLucroLiquidoAnual, text="Lucro Bruto - Despesas - Impostos. \n"
+    ToolTip.CreateToolTip(labelLucroLiquidoAnual, text="Somatório dos lucros líquidos apurados \n"
+                                                       "nos meses em que as vendas não superam R$20.000,00.\n"
                                                     "No programa de IRPF, lançar este valor em\n"
-                                                    "Rendimentos Isentos e Não Tributáveis, opção 20.\n"
-                                                       "Desconsidera os lucros obtidos em meses em que\n"
-                                                       "se pagou imposto de renda (já lançados nos meses \n"
-                                                       "específicos em que se recolheu IR)")
+                                                    "Rendimentos Isentos e Não Tributáveis, opção 20.\n")
 
+
+    ToolTip.CreateToolTip(labelLucroLiquidoVendasMaior20k, text="Somatório dos lucros Líquidos apurados mensalmente\n"
+                                                                "em meses que as vendas superam R$20.000,00.\n"
+                                                                "As partes que resultam este somatório devem ser lançadas\n"
+                                                                "na aba Renda Variável do programa de recolhimento do IRPF. \n"
+                                                                "Rode mês a mês e insira os dados mensalmente")
 
     btnCalculaIRPFAnual = Button(frameIRPFBoth,
-                                  text="Calcula IRPF Anual")  # , font=mono_font)
+                                  text="Calcula IRPF")  # , font=mono_font)
     btnCalculaIRPFAnual.grid(row=3, column=0, columnspan=2, sticky='nesw')
     ############################### Arranjo dos WIdgets###########################################
     labelVendasAnual.grid(row=1, column=0, sticky='e')
     labelLucroBrutoAnual.grid(row=2, column=0, sticky='e')
     labelDespesasMensaisAnual.grid(row=3, column=0, sticky='e')
     labelLucroLiquidoAnual.grid(row=4, column=0, sticky='e')
-    labelLucroLiquidoPercentualAnual.grid(row=5, column=0, sticky='e')
+    #labelLucroLiquidoPercentualAnual.grid(row=5, column=0, sticky='e')
+    labelLucroLiquidoVendasMaior20k.grid(row=5, column=0, sticky='e')
     labelIRPFRetidoAnual.grid(row=6, column=0, sticky='e')
     labelImpostosDevidosAnual.grid(row=7, column=0, sticky='e')
     entVendasAnual.grid(row=1, column=1, sticky='nesw')
     entLucroBrutoAnual.grid(row=2, column=1, sticky='nesw')
     entDespesasMensaisAnual.grid(row=3, column=1, sticky='nesw')
     entLucroLiquidoAnual.grid(row=4, column=1, sticky='nesw')
-    entLucroLiquidoPercentualAnual.grid(row=5, column=1, sticky='nesw')
+    #entLucroLiquidoPercentualAnual.grid(row=5, column=1, sticky='nesw')
+    entLucroLiquidoVendasMaior20k.grid(row=5, column=1, sticky='nesw')
     entIRPFRetidoAnual.grid(row=6, column=1, sticky='nesw')
     entImpostosDevidosAnual.grid(row=7, column=1, sticky='nesw')
     # Os frames abaixo estão linkados no frameIRPFBoth
-    frameIRPFAnual.grid(row=2, column=0, columnspan=2, sticky='nesw')
+    frameIRPFAnual.grid(row=2, column=0, columnspan=2, sticky='nesw', pady=20)
     frameIRPFAnual.columnconfigure(0, weight=1)
     ##############################################################################################
     ##############################Fim Frame IRPF Anual - frameIRPFAnual###########################

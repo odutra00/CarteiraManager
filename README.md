@@ -34,7 +34,10 @@ que quiser modificar, insira a entrada novamente.
 
 Para o cálculo do IRPF, insira uma data no campo controles (pode ser apenas mês e ano),
 no formato DD/MM/AAAA ou MM/AAAA. O imposto será calculado no campo IRPF Mensal, para o mês escolhido.
-Na declaração de IRPF anual, no programa de IRPF, caso as vendas do mês ultrapassarem R$20.000,00 (for necessário gerar DARF), lancar em renda variável o valor do (Lucro Bruto - Desepsas). Caso contrário, lançar o somatório desse mesmo valor, para todos os meses em que Vendas < R$20.000,00, em Rendimentos Isentos e Não Tributáveis, classe 20).
+Na declaração de IRPF anual, no programa de IRPF, caso as vendas do mês ultrapassarem R$20.000,00 (for necessário gerar DARF), lancar em renda variável o valor do (Lucro Bruto - Desepsas) para aquele mês.
+As informações anuais do IRPF também são computados cumulativamente até o mês passado como argumento. Se quiser visualizar os dados computados para o ano inteiro, passe o mês 12 de um referido ano em formato DD/MM/YYYY, ou MM/YYYY.
+Na declaração de ajuste anual do IRPF, rode o cálculo do IRPF para o mês 12 do Ano Calendário (ano anterior ao ano de exercício do IR). Lance o valor contido em "L. Líquido Vendas Mensais < 20k" em "Rendimentos Isentos e Não Tributáveis, opção 20.")
+
 
 Se você quiser visualizar os indicadores de um ativo que não possuir em sua carteira,
 basta digital o ticker do mesmmo no campo Ação e clicar em Buscar. 
