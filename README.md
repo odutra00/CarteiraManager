@@ -40,7 +40,7 @@ Na declaração de ajuste anual do IRPF, rode o cálculo do IRPF para o mês 12 
 
 
 Se você quiser visualizar os indicadores de um ativo que não possuir em sua carteira,
-basta digital o ticker do mesmmo no campo Ação e clicar em Buscar. 
+basta digital o ticker do mesmo no campo Ação e clicar em Buscar. 
 Você também pode selecionar da lista de operações realizadas um ativo de interesse. 
 A fonte dos dados é o investpy.
 
