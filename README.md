@@ -47,7 +47,7 @@ A fonte dos dados é o investpy.
 Observações: 
 
 1) Os gráficos "Posição Consolidada" e "Desempenho" podem demorar um pouco para serem atualizados
-pois os dados das cotações atuais são puxados da Internet, através do módulo "investpy.py"
+pois os dados das cotações atuais são puxados do portal Invest.com
 
 2) O gráfico "Desempenho" apresenta os ganhos (ou perdas) normalizados para a primeira operação daquele 
 ativo / índice presente em sua carteira. A toda nova operação, o gráfico se renormaliza de acordo.
