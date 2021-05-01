@@ -1,8 +1,25 @@
-#import About
+libnames = ['numpy',
+            'operator',
+            'datetime',
+            'csv',
+            'investpy',
+            'tkinter',
+            'pandas',
+            'threading'
+            ]
+import sys
+for libname in libnames:
+    try:
+        lib = __import__(libname)
+    except:
+        print (sys.exc_info())
+    else:
+        globals()[libname] = lib
+
 from Gui import *
+import Backend as core
 from datetime import date
 from datetime import timedelta
-import Backend as core
 from datetime import datetime
 import csv
 import investpy as inv
@@ -10,7 +27,6 @@ from tkinter import messagebox
 import pandas as pd
 import numpy as np
 import threading
-from multiprocessing import Process
 
 app = None
 
