@@ -410,8 +410,11 @@ class Gui:
     ToolTip.CreateToolTip(labelLucroLiquidoVendasMaior20k, text="Somatório dos lucros Líquidos apurados mensalmente\n"
                                                                 "em meses que as vendas superam R$20.000,00.\n"
                                                                 "As partes que resultam este somatório devem ser lançadas\n"
-                                                                "na aba Renda Variável do programa de recolhimento do IRPF. \n"
-                                                                "Rode mês a mês e insira os dados mensalmente")
+                                                                "na aba Renda Variável do programa de recolhimento do IRPF, \n"
+                                                                "(lembrando que, no programa da receita, os valores a serem \n"
+                                                                "lançados são antes de impostos). \n"
+                                                                "Rode mês a mês e insira os dados mensalmente de acordo com os\n"
+                                                                "tool tips do frame IRPF Regular Mensal e IRPF Day Trade Mensal")
 
     btnCalculaIRPFAnual = Button(frameIRPFBoth,
                                   text="Calcula IRPF")  # , font=mono_font)

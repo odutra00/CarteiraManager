@@ -758,7 +758,7 @@ def calculaIRPFAnual(dataCorreta, data, tipo):
                                   dadosIRPFAnual[4] + tmp[4], #impostoDevidoAnual
                                   dadosIRPFAnual[5] + 0, #lucroLiquidoAnual
                                   dadosIRPFAnual[6] + tmp[6], #lucroLiquidoPercentualAnual
-                                  dadosIRPFAnual[7] + tmp[5], #lucroLiquidoVendasMaior20k
+                                  dadosIRPFAnual[7] + tmp[5] #lucroLiquidoVendasMaior20k
                                 ]
 
             tmpDT = calculaIRPFDayTrade(dataCorreta, dataAtual, tipo)
@@ -769,18 +769,10 @@ def calculaIRPFAnual(dataCorreta, data, tipo):
                               dadosIRPFAnual[4] + tmpDT[4],  # impostoDevidoAnual
                               dadosIRPFAnual[5] + 0,         # lucroLiquidoAnual
                               dadosIRPFAnual[6] + tmpDT[6],  # lucroLiquidoPercentualAnual
-                              dadosIRPFAnual[7] + tmpDT[5],  # lucroLiquidoVendasMaior20k
+                              dadosIRPFAnual[7] + tmpDT[5]  # lucroLiquidoVendasMaior20k
                               ]
                     #dadosIRPFAnual = dadosIRPFRegular + dadosIRPFDT
         return dadosIRPFAnual
-        # return [totalvendasAno,
-        #         irpfRetidoFonteAno,
-        #         despesasAnuais,
-        #         lucroBrutoAnual,
-        #         impostoDevidoAnual,
-        #         lucroLiquidoAnual,
-        #         lucroLiquidoPercentualAnual,
-        #         lucroLiquidoVendasMaior20k]
 
 
 def getDate():
