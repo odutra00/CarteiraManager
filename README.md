@@ -1,55 +1,116 @@
-# CarteiraManager V1.0
-Gerenciador de Carteiras de ações, com cálculo de IRPF (mensal e Day-Trade) e indicadores via investpy.py
-Roda em Python 3.8.
-Utiliza os dados do portal Investing.com, através do pacote investpy.
+# CarteiraManager V2.0
 
-<pre>1) Banco de dados de ativos;</pre>
-<pre>2) Posição atual da carteira graficamente;</pre>
-<pre>3) Comparação de resultados, normalizados, dos papéis, carteira e IBOV;</pre>
-<pre>4) Cálculo do IRPF funciona para ativos que tenham as mesmas regras de ações (derivativos, ETFs, ações);</pre>
+Gerenciador de Carteiras de Ativos (B3), Cálculo de IRPF (Mensal Swing Trade, Day-Trade e DIRPF Anual) e Indicadores de Mercado.
 
+Reativado e totalmente refatorado com arquitetura modular, **PyQt6**, **yfinance** e suporte ao **Python 3.12+**.
 
-Este programa se propõe a gerenciar a carteira de ativos de um investidor.
+---
 
-Qualquer ativo que seguir as regras de imposto de renda de ações e ETFs pode ser gerenciado.
+## 🚀 Principais Funcionalidades
 
-Para começar a usar, basta inserir os valores pedidos no menu "Controles" ou importar um 
-arquivo csv (separador ;), em formatação ANSI (obrigatoriamente). As colunas necessárias são dadas a seguir:
-Mercado;Papel;Status;Data;Valor;Quantidade;Custos
+1. **Gestão de Operações e Custódia**:
+   - Cadastro e histórico completo de compras e vendas (Mercado à Vista, Opções, Fracionário, FII, ETF, BDR).
+   - Cálculo automático de **Preço Médio (PM)** considerando custos e taxas da B3 (Instrução Normativa RFB nº 1.585/2015).
+   - Acompanhamento de quantidade consolidada e posição de custódia em tempo real.
+   - Detecção automática de operações **Day-Trade**.
 
-Em que:
-<pre><b>Mercado</b> --> <b>Vista</b> ou <b>Opções</b></pre>
-<pre><b>Papel</b> --> Ticker do ativo</pre>
-<pre><b>Status</b> --> <b>Compra</b> ou <b>Venda</b></pre>
-<pre><b>Data</b> --> Data da Operação, no formato <b>DD/MM/YYYY</b></pre>
-<pre><b>Valor</b> --> Valor negociado pelo ativo (compra ou venda). Não use separador de milhar. O separador decimal pode ser a vírgula ou o ponto</pre>
-<pre><b>Quantidade</b> --> Quantidade negociada</pre>
-<pre><b>Custos</b> --> Taxa da corretora, emolumentos da B3, etc</pre>
+2. **Visão da Carteira & Gráfico de Alocação**:
+   - Cards com métricas consolidadas: Total Investido (Custo), Valor de Mercado Atual, Lucro/Prejuízo (R$) e Rentabilidade Global (%).
+   - Tabela detalhada de ativos em custódia com cotação atualizada, resultado e percentual de alocação.
+   - Gráfico de Pizza / Donut interativo (Matplotlib) com a composição da carteira.
+   - Atualização de cotações em tempo real via Yahoo Finance (`yfinance`).
 
-Você pode inserir uma entrada a qualquer momento. Os valores de preço médio, 
-quantidade consolidada, posição consolidada, serão recalculados automaticamente.
+3. **Apuração de IRPF & DARF**:
+   - **Operações Comuns (Swing Trade)**:
+     - Isenção automática para meses com volume de vendas de ações $\le$ R$ 20.000,00.
+     - Alíquota de 15% sobre o lucro líquido para meses com vendas $>$ R$ 20.000,00.
+     - Cálculo do IRRF retido na fonte (dedo-duro de 0,005%).
+     - **Compensação contínua de prejuízos acumulados** de meses anteriores.
+     - Cálculo exato do valor da DARF a recolher.
+   - **Day Trade**:
+     - Alíquota de 20% sobre o ganho líquido (sem faixa de isenção).
+     - IRRF retido na fonte de 1% e compensação de prejuízos anteriores de Day Trade.
+   - **Declaração Anual (DIRPF)**:
+     - Total de Rendimentos Isentos e Não Tributáveis (Código 20) para a declaração de ajuste anual.
+     - Total de Ganhos Líquidos Tributáveis mês a mês.
+     - Total de IRRF retido no ano para dedução na DIRPF.
+     - Saldo de prejuízos acumulados a transportar para o ano seguinte.
 
-Para editar uma entrada, selecione a mesma da lista, em seguida delete-a, modifique no campo controle o 
-que quiser modificar, insira a entrada novamente.
+4. **Gráfico de Desempenho vs IBOV**:
+   - Evolução normalizada da rentabilidade (Base 1.0) comparando a Carteira com o índice Ibovespa (`^BVSP`) e ativos individuais.
+   - Compatível com as versões mais recentes do Pandas e Matplotlib.
 
-Para o cálculo do IRPF, insira uma data no campo controles (pode ser apenas mês e ano),
-no formato DD/MM/AAAA ou MM/AAAA. O imposto será calculado no campo IRPF Mensal, para o mês escolhido.
-Na declaração de IRPF anual, no programa de IRPF, caso as vendas do mês ultrapassarem R$20.000,00 (for necessário gerar DARF), lancar em renda variável o valor do (Lucro Bruto - Despesas) para aquele mês.
-As informações anuais do IRPF também são computados cumulativamente até o mês informado. Se quiser visualizar os dados computados para o ano inteiro, passe o mês 12 de um referido ano em formato DD/MM/YYYY ou MM/YYYY.
-Na declaração de ajuste anual do IRPF, rode o cálculo do IRPF para o mês 12 do Ano Calendário (ano anterior ao ano de exercício do IR). Lance o valor contido em "L. Líquido Vendas Mensais < 20k" em "Rendimentos Isentos e Não Tributáveis, opção 20.")
+5. **Indicadores de Mercado**:
+   - Busca em tempo real de múltiplos fundamentalistas (P/L, P/VP, Dividend Yield, LPA, Beta, Mín/Máx 52 semanas).
 
+6. **Importação e Exportação CSV**:
+   - Importação e exportação com detecção automática de delimitadores (`;` ou `,`) e codificação (UTF-8, ANSI).
 
-Se você quiser visualizar os indicadores de um ativo que não possuir em sua carteira,
-basta digital o ticker do mesmo no campo Ação e clicar em Buscar. 
-Você também pode selecionar da lista de operações realizadas um ativo de interesse. 
-A fonte dos dados é o investpy.
+---
 
-Observações: 
+## 🛠️ Requisitos e Instalação
 
-1) Os gráficos "Posição Consolidada" e "Desempenho" podem demorar um pouco para serem atualizados
-pois os dados das cotações atuais são puxados do portal Invest.com
+O projeto utiliza o ambiente virtual configurado. Para executar:
 
-2) O gráfico "Desempenho" apresenta os ganhos (ou perdas) normalizados para a primeira operação daquele 
-ativo / índice presente em sua carteira. A toda nova operação, o gráfico se renormaliza de acordo.
-Assim, um valor de 1 significa que o valor atual é o mesmo investido.
-Um valor maior que um, siginifica ganho; um valor menor que um, significa perda.
+```bash
+# 1. Ativar o ambiente virtual
+source ~/myPython/bin/activate
+
+# 2. Instalar dependências (caso necessário)
+pip install -r requirements.txt
+
+# 3. Executar o programa
+python main.py
+```
+
+### Comandos de Linha de Comando (CLI)
+
+O `main.py` também oferece utilitários via terminal:
+
+```bash
+# Recalcular todos os preços médios e posições do banco de dados
+python main.py --recalculate
+
+# Importar uma planilha de operações
+python main.py --import-csv PlanilhaOperacoesTeste.csv
+
+# Exportar as operações atuais para CSV
+python main.py --export-csv MinhaCarteira.csv
+```
+
+---
+
+## 🧪 Execução de Testes Automatizados
+
+O projeto conta com suíte de testes unitários e de integração com `pytest`:
+
+```bash
+pytest tests/ -v
+```
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+CarteiraManager/
+├── core/                       # Regras de negócio e camada de dados (desacoplada da UI)
+│   ├── models.py               # Dataclasses tipadas (Operacao, PosicaoConsolidada, ResumoIRPF)
+│   ├── database.py             # Acesso seguro ao SQLite (STOCKS.db)
+│   ├── portfolio_service.py    # Cálculo de Preço Médio, Day-Trade e Consolidação
+│   ├── tax_service.py          # Apuração fiscal de IRPF e DIRPF
+│   ├── market_data.py          # Integração resiliente com yfinance e cache local
+│   └── csv_service.py          # Importador e exportador de planilhas CSV
+├── ui/                         # Interface Gráfica Moderna (PyQt6)
+│   ├── app.py                  # Janela principal e menus (MainWindow)
+│   └── widgets/                # Componentes das abas
+│       ├── operations_tab.py   # Cadastro e tabela de operações
+│       ├── portfolio_tab.py    # Carteira consolidada e gráfico Donut
+│       ├── performance_tab.py  # Gráfico de rentabilidade normalizada vs IBOV
+│       ├── tax_tab.py          # Painel de apuração de IRPF e DARF
+│       └── indicators_tab.py   # Consulta de fundamentos de ativos
+├── tests/                      # Testes automatizados (pytest)
+├── STOCKS.db                   # Banco de dados SQLite persistente
+├── requirements.txt            # Dependências Python
+└── main.py                     # Ponto de entrada do programa
+```

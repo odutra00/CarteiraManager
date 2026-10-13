@@ -1,17 +1,24 @@
+libnames = ['ToolTip',
+            'matplotlib.pyplot',
+            'tkinter'
+            ]
+import sys
+for libname in libnames:
+    try:
+        lib = __import__(libname)
+    except:
+        print (sys.exc_info())
+    else:
+        globals()[libname] = lib
+
+
+
 from tkinter import *
 from tkinter import ttk
 #import tkfontchooser
 import ToolTip
-#from tkcalendar import *
-from tkinter import filedialog
-from tkinter.filedialog import askopenfilename
 import matplotlib.pyplot as plt
-import numpy as np
-
-import matplotlib.pyplot as plot
-#matplotlib.use("TkAgg")
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
-#from matplotlib.figure import Figure
 
 class Gui:
     """Classe que define a interface gráfica da aplicação

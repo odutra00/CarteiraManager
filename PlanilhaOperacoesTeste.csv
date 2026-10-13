@@ -1,0 +1,9 @@
+Mercado;Papel;Status;Data;Valor;Quantidade;Custos
+Vista;VALE3;Compra;05/01/2021;90;186;15.0
+Vista;CSNA3;Compra;22/02/2021;36.15;100;6.7
+Vista;CSNA3;Compra;22/02/2021;35.4;100;6.67
+Vista;CSNA3;Venda;11/03/2021;37.0;200;7.0
+Vista;VALE3;Venda;15/04/2021;108.14;100;8.39
+Vista;VALE3;Venda;20/04/2021;105.85;4;0.0
+Vista;VALE3;Venda;20/04/2021;105.51;39;0.0
+Vista;VALE3;Venda;20/04/2021;105.5;43;13.02
